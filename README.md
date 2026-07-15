@@ -48,9 +48,40 @@ cp -R claude-skills/skills/research/research-pipeline ~/.claude/skills/
 
 Some skills call external CLIs (documented in each `SKILL.md`): `notebooklm` + `yt-dlp` (research), `fswatch` (autocommit), `git`/`gh` (engineering).
 
-## Attribution
+## Beyond my own skills
 
-- `game-designer-ue` is my Unreal Engine 5 adaptation of the browser-based [`game-designer`](https://github.com/OpusGameLabs) methodology (MIT). Original patterns credited; UE mappings and TBS reframing are mine.
+This repo holds **only skills I authored**. My day-to-day agent setup stands on a much larger ecosystem — here's where the rest comes from, and where you can find your own.
+
+### Primary source — [skills.sh](https://skills.sh)
+
+Most skills in my stack are discovered and installed with the [`skills`](https://skills.sh) CLI:
+
+```bash
+npx skills add <owner>/<repo> -s <skill>   # single skill (recommended)
+npx skills add <owner>/<repo>              # whole repo — careful, some ship hundreds
+```
+
+> **Tip:** always pin `-s <skill>`. Some community repos bundle 1000+ skills and a bare `add` installs every one of them.
+
+### Third-party skills I use — credit to their authors
+
+I run these but did **not** write them; they live in their upstream repos, not here:
+
+| Source | Skills / focus |
+|---|---|
+| [obra/superpowers](https://github.com/obra/superpowers) | systematic-debugging, brainstorming, git-worktrees, TDD, writing-plans |
+| [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | design-taste-frontend (frontend design taste) |
+| [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | ui-ux-pro-max, design, design-system, banner-design |
+| [opusgamelabs/game-creator](https://github.com/opusgamelabs) | game-designer — basis for my [`game-designer-ue`](./skills/engineering/game-designer-ue) |
+| [dstn2000/claude-unreal-engine-skill](https://github.com/dstn2000/claude-unreal-engine-skill) | unreal-engine |
+| [roble3/cc-blender-skill](https://github.com/roble3/cc-blender-skill) | blender-modeling |
+| [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | deploy-to-vercel, vercel-* |
+| [googleworkspace/cli](https://github.com/googleworkspace/cli) | gws-* (Gmail, Calendar, Drive, Sheets…) |
+| [stripe/docs](https://docs.stripe.com) | stripe-best-practices, stripe-projects |
+| [mattpocock/skills](https://github.com/mattpocock/skills) · [slavingia/skills](https://github.com/slavingia/skills) · [crafter-station/skills](https://github.com/crafter-station/skills) | assorted engineering / business / second-brain skills |
+| [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) | large community mega-pack — install **selectively** |
+
+Business / second-brain skills I use but didn't author (meeting-notes, invoice-extractor, lead-scraper, cold-email-campaigns, follow-up-nurture, …) come from the packs above and are intentionally kept out of this repo.
 
 ## License
 

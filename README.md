@@ -6,8 +6,6 @@
   |_| |_| |_|\___|   \_/ \___|_|_|\___|_|  |____/|_|\_\_|_|_|___/
 ```
 
-# TheVeller Skills
-
 Portable agent workflows for research, engineering, handoffs, and Obsidian operations. Built from real projects, packaged as self-contained `SKILL.md` directories.
 
 [![GitHub stars](https://img.shields.io/github/stars/TheVeller/claude-skills?style=flat&logo=github&label=stars)](https://github.com/TheVeller/claude-skills/stargazers)

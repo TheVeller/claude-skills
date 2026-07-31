@@ -30,7 +30,7 @@ Verifica/optimiza el `README.md` para GitHub (estructura + estrellas) y luego ha
 
 4. **Commit**:
    - Si el daemon auto-commit corre y esto es un cambio simple, dejar que el flujo normal aplique; para un commit explícito: `git add README.md` (+ lo que el usuario indique) y commit Conventional Commit:
-     `docs(readme): <resumen>` con el trailer `Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>`.
+     `docs(readme): <resumen>` con el trailer `Co-Authored-By: Claude <modelo real de la sesión> <noreply@anthropic.com>` — no hardcodear el modelo, ver `RULES.md` § Commits.
    - Usar el mensaje que pase el usuario en `$ARGUMENTS` si lo da; si no, generar uno descriptivo.
    - Mostrar el diff resumido antes de commitear si el cambio es grande.
 

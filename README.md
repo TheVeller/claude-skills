@@ -1,88 +1,132 @@
-# TheVeller · Claude Skills
+```text
+ _____ _          __     __   _ _            ____  _    _ _ _
+|_   _| |__   ___ \ \   / /__| | | ___ _ __/ ___|| | _(_) | |___
+  | | | '_ \ / _ \ \ \ / / _ \ | |/ _ \ '__\___ \| |/ / | | / __|
+  | | | | | |  __/  \ V /  __/ | |  __/ |   ___) |   <| | | \__ \
+  |_| |_| |_|\___|   \_/ \___|_|_|\___|_|  |____/|_|\_\_|_|_|___/
+```
 
-> A curated monorepo of **my own** Claude Code / agent skills — organized by category. Each skill is a self-contained `SKILL.md` (plus any scripts/references it needs) that drops into any agent's skills directory.
+# TheVeller Skills
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](./LICENSE)
-[![Skills](https://img.shields.io/badge/skills-11-blue.svg)](#catalog)
-[![Author](https://img.shields.io/badge/by-@TheVeller-6e5494.svg)](https://github.com/TheVeller)
+Portable agent workflows for research, engineering, handoffs, and Obsidian operations. Built from real projects, packaged as self-contained `SKILL.md` directories.
 
-These are skills I authored or adapted for my own Obsidian + agent workflow. Third-party / installed skills are intentionally **not** here — only my work.
+[![GitHub stars](https://img.shields.io/github/stars/TheVeller/claude-skills?style=flat&logo=github&label=stars)](https://github.com/TheVeller/claude-skills/stargazers)
+[![License: MIT](https://img.shields.io/badge/license-MIT-black.svg)](./LICENSE)
+[![Last commit](https://img.shields.io/github/last-commit/TheVeller/claude-skills)](https://github.com/TheVeller/claude-skills/commits/main)
+[![Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-2563eb)](https://skills.sh)
 
-## Catalog
+Use these skills when a repeatable workflow needs more than a prompt: deterministic scripts, references, safety rules, and a clear definition of done. The collection contains skills authored or materially adapted by [@TheVeller](https://github.com/TheVeller); upstream work is credited explicitly.
 
-### 🔬 research
-| Skill | What it does |
+## Start here
+
+| Goal | Skill |
 |---|---|
-| [`research-pipeline`](./skills/research/research-pipeline) | YouTube → NotebookLM → notes. Server-side analysis at **zero LLM tokens**. Optional infographic/podcast/slides. |
-| [`youtube-search`](./skills/research/youtube-search) | Search YouTube via `yt-dlp`, collect video URLs + metadata. Feeds `research-pipeline`. |
-| [`daily-review-workflow`](./skills/research/daily-review-workflow) | End-of-day review routine — pulls synced sources, handles errors, writes the daily note. |
+| Turn long-form sources into reusable research | [`research-pipeline`](./skills/research/research-pipeline) |
+| Sync a local repository without losing work | [`repo-sync`](./skills/engineering/repo-sync) |
+| Improve a GitHub README and ship the change | [`readme-commit`](./skills/engineering/readme-commit) |
+| Transfer work into a fresh Orca agent terminal | [`orca-handoff`](./skills/agent-operations/orca-handoff) |
+| Explain a technical decision to a non-developer | [`no-dev`](./skills/agent-operations/no-dev) |
+| Keep an Obsidian vault committed continuously | [`autocommit`](./skills/obsidian-vault/autocommit) |
 
-### 🛠️ engineering
-| Skill | What it does |
-|---|---|
-| [`game-designer-ue`](./skills/engineering/game-designer-ue) | Game-feel / juice audit + design methodology mapped to Unreal Engine 5 (Niagara, UMG, Camera Shake, Sequencer). For TBS/tactical. |
-| [`readme-commit`](./skills/engineering/readme-commit) | Verify/optimize a star-worthy README, then commit with Conventional Commits. |
-| [`repo-sync`](./skills/engineering/repo-sync) | Sync a working repo to remote with a safe, scripted flow. |
-| [`intent-layer`](./skills/engineering/intent-layer) | Capture intent + structure analysis before implementation (state detection, token estimation, templates). |
-| [`start-cc+lv`](./skills/engineering/start-cc+lv) | Bootstrap a Claude Code session wired to Lovable + Cloud Native + Render via GitHub `main`. |
-| [`clone-software-repo`](./skills/engineering/clone-software-repo) | Clone an external repo into a managed software workspace. |
+## Install
 
-### 📓 obsidian-vault
-| Skill | What it does |
-|---|---|
-| [`obsidianizer`](./skills/obsidian-vault/obsidianizer) | Turn raw content into vault-ready Obsidian notes (frontmatter, wikilinks, PARA). |
-| [`autocommit`](./skills/obsidian-vault/autocommit) | Operate a local `fswatch` auto-commit daemon for a vault (start/stop/status/debug). |
+Install one skill globally with the [`skills`](https://skills.sh) CLI:
 
-## Install a skill
+```bash
+npx skills add TheVeller/claude-skills --skill repo-sync -g
+```
 
-Each skill folder is self-contained. Copy the one you want:
+Install several skills into the current project:
+
+```bash
+npx skills add TheVeller/claude-skills \
+  --skill research-pipeline readme-commit orca-handoff
+```
+
+Or clone and copy a directory directly:
 
 ```bash
 git clone https://github.com/TheVeller/claude-skills.git
-cp -R claude-skills/skills/research/research-pipeline ~/.claude/skills/
+cp -R claude-skills/skills/engineering/repo-sync ~/.claude/skills/
 ```
 
-> **Note on layout:** skills are grouped into category folders for browsing. Claude Code discovers skills at `~/.claude/skills/<name>/SKILL.md` (flat) — so copy the individual skill folder up one level as shown, not the category folder.
+The repository groups skills by category for browsing. Install or copy the individual skill directory, not its category directory.
 
-## Prerequisites
+## Catalog
 
-Some skills call external CLIs (documented in each `SKILL.md`): `notebooklm` + `yt-dlp` (research), `fswatch` (autocommit), `git`/`gh` (engineering).
+### Research
 
-## Beyond my own skills
-
-This repo holds **only skills I authored**. My day-to-day agent setup stands on a much larger ecosystem — here's where the rest comes from, and where you can find your own.
-
-### Primary source — [skills.sh](https://skills.sh)
-
-Most skills in my stack are discovered and installed with the [`skills`](https://skills.sh) CLI:
-
-```bash
-npx skills add <owner>/<repo> -s <skill>   # single skill (recommended)
-npx skills add <owner>/<repo>              # whole repo — careful, some ship hundreds
-```
-
-> **Tip:** always pin `-s <skill>`. Some community repos bundle 1000+ skills and a bare `add` installs every one of them.
-
-### Third-party skills I use — credit to their authors
-
-I run these but did **not** write them; they live in their upstream repos, not here:
-
-| Source | Skills / focus |
+| Skill | What it does |
 |---|---|
-| [obra/superpowers](https://github.com/obra/superpowers) | systematic-debugging, brainstorming, git-worktrees, TDD, writing-plans |
-| [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | design-taste-frontend (frontend design taste) |
-| [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | ui-ux-pro-max, design, design-system, banner-design |
-| [opusgamelabs/game-creator](https://github.com/opusgamelabs) | game-designer — basis for my [`game-designer-ue`](./skills/engineering/game-designer-ue) |
-| [dstn2000/claude-unreal-engine-skill](https://github.com/dstn2000/claude-unreal-engine-skill) | unreal-engine |
-| [roble3/cc-blender-skill](https://github.com/roble3/cc-blender-skill) | blender-modeling |
-| [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | deploy-to-vercel, vercel-* |
-| [googleworkspace/cli](https://github.com/googleworkspace/cli) | gws-* (Gmail, Calendar, Drive, Sheets…) |
-| [stripe/docs](https://docs.stripe.com) | stripe-best-practices, stripe-projects |
-| [mattpocock/skills](https://github.com/mattpocock/skills) · [slavingia/skills](https://github.com/slavingia/skills) · [crafter-station/skills](https://github.com/crafter-station/skills) | assorted engineering / business / second-brain skills |
-| [sickn33/antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) | large community mega-pack — install **selectively** |
+| [`research-pipeline`](./skills/research/research-pipeline) | Sends sources through NotebookLM and returns grounded notes, with optional infographic, podcast, or slides. |
+| [`youtube-search`](./skills/research/youtube-search) | Searches YouTube through `yt-dlp` and collects URLs plus metadata for research pipelines. |
+| [`daily-review-workflow`](./skills/research/daily-review-workflow) | Pulls synced sources, handles failures, and writes an end-of-day review note. |
 
-Business / second-brain skills I use but didn't author (meeting-notes, invoice-extractor, lead-scraper, cold-email-campaigns, follow-up-nurture, …) come from the packs above and are intentionally kept out of this repo.
+### Engineering
+
+| Skill | What it does |
+|---|---|
+| [`readme-commit`](./skills/engineering/readme-commit) | Audits or creates a useful GitHub README, verifies it against the repository, then commits it. |
+| [`repo-sync`](./skills/engineering/repo-sync) | Detects ahead, behind, and diverged states; fast-forwards safely and backs up before destructive syncs. |
+| [`intent-layer`](./skills/engineering/intent-layer) | Captures intent and structural constraints before implementation. |
+| [`clone-software-repo`](./skills/engineering/clone-software-repo) | Clones an external repository into a managed software workspace. |
+| [`start-cc+lv`](./skills/engineering/start-cc+lv) | Starts a Claude Code workflow connected to Lovable and a GitHub-based deployment path. |
+| [`game-designer-ue`](./skills/engineering/game-designer-ue) | Adapts game-feel analysis and design methods to Unreal Engine 5 systems. |
+
+### Agent Operations
+
+| Skill | What it does |
+|---|---|
+| [`orca-handoff`](./skills/agent-operations/orca-handoff) | Writes a redacted handoff, opens the correct Orca terminal or worktree, waits for TUI readiness, and delivers the prompt. |
+| [`no-dev`](./skills/agent-operations/no-dev) | Converts technical explanations into purpose, consequence, action, risk, and result. |
+
+### Obsidian Vault
+
+| Skill | What it does |
+|---|---|
+| [`obsidianizer`](./skills/obsidian-vault/obsidianizer) | Turns raw material into vault-ready notes with frontmatter, wikilinks, and PARA placement. |
+| [`autocommit`](./skills/obsidian-vault/autocommit) | Operates and diagnoses an `fswatch`-based auto-commit daemon for a vault. |
+
+## Repository layout
+
+```text
+skills/
+|-- agent-operations/  # handoffs and human-agent communication
+|-- engineering/       # repository and implementation workflows
+|-- obsidian-vault/    # knowledge-system operations
+`-- research/          # source discovery and synthesis
+```
+
+Each leaf directory includes a `SKILL.md` and may include scripts, references, templates, or assets. Dependencies and setup steps live beside the skill that needs them.
+
+## Compatibility
+
+The format works with agents that support Agent Skills, including Claude Code, Cursor, and Codex through the `skills` CLI. Individual workflows may require tools such as `git`, `gh`, `fswatch`, `yt-dlp`, NotebookLM, or Orca; check the target skill before installing.
+
+## Attribution
+
+This repository does not mirror the full third-party stack used in TheVeller's workspace. Those skills stay in their upstream repositories:
+
+| Source | Skills or focus |
+|---|---|
+| [obra/superpowers](https://github.com/obra/superpowers) | Debugging, planning, worktrees, and TDD |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | Domain modeling, grilling, handoffs, implementation, and teaching |
+| [coleam00/excalidraw-diagram-skill](https://github.com/coleam00/excalidraw-diagram-skill) | Research-backed Excalidraw workflow diagrams |
+| [pbakaus/impeccable](https://github.com/pbakaus/impeccable) | Design critique and frontend refinement |
+| [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | Frontend design judgment |
+| [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | UI/UX design workflows |
+| [opusgamelabs/game-creator](https://github.com/opusgamelabs) | Basis for the adapted `game-designer-ue` skill |
+| [dstn2000/claude-unreal-engine-skill](https://github.com/dstn2000/claude-unreal-engine-skill) | Unreal Engine workflows |
+| [roble3/cc-blender-skill](https://github.com/roble3/cc-blender-skill) | Blender modeling |
+| [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | Vercel deployment workflows |
+| [googleworkspace/cli](https://github.com/googleworkspace/cli) | Google Workspace service skills |
+
+Install community skills selectively and keep their original license and attribution.
+
+## Contributing
+
+Issues and pull requests are welcome. A useful contribution should keep one workflow per skill, document external dependencies, avoid secrets and machine-specific data, and include a runnable check for non-trivial scripts.
 
 ## License
 
-MIT © [Ignacio Alberto Velásquez Franco (@TheVeller)](https://github.com/TheVeller)
+MIT (c) [Ignacio Alberto Velasquez Franco (@TheVeller)](https://github.com/TheVeller)

@@ -70,6 +70,7 @@ The repository groups skills by category for browsing. Install or copy the indiv
 | [`clone-software-repo`](./skills/engineering/clone-software-repo) | Clones an external repository into a managed software workspace. |
 | [`start-cc+lv`](./skills/engineering/start-cc+lv) | Starts a Claude Code workflow connected to Lovable and a GitHub-based deployment path. |
 | [`game-designer-ue`](./skills/engineering/game-designer-ue) | Adapts game-feel analysis and design methods to Unreal Engine 5 systems. |
+| [`wayfinder-sequential`](./skills/engineering/wayfinder-sequential) | Cautious variant of [`/wayfinder`](https://github.com/mattpocock/skills): one ticket per session, no parallel research, map re-evaluated after every resolution, prototype decisions stay with the user. Requires the upstream `wayfinder` skill. |
 
 ### Agent Operations
 
@@ -108,7 +109,7 @@ This repository does not mirror the full third-party stack used in TheVeller's w
 | Source | Skills or focus |
 |---|---|
 | [obra/superpowers](https://github.com/obra/superpowers) | Debugging, planning, worktrees, and TDD |
-| [mattpocock/skills](https://github.com/mattpocock/skills) | Domain modeling, grilling, handoffs, implementation, and teaching |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | Domain modeling, grilling, handoffs, implementation, teaching, and the `wayfinder` planning chain (`wayfinder-sequential` here builds on it) |
 | [coleam00/excalidraw-diagram-skill](https://github.com/coleam00/excalidraw-diagram-skill) | Research-backed Excalidraw workflow diagrams |
 | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) | Design critique and frontend refinement |
 | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | Frontend design judgment |

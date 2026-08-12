@@ -86,12 +86,20 @@ The repository groups skills by category for browsing. Install or copy the indiv
 | [`obsidianizer`](./skills/obsidian-vault/obsidianizer) | Turns raw material into vault-ready notes with frontmatter, wikilinks, and PARA placement. |
 | [`autocommit`](./skills/obsidian-vault/autocommit) | Operates and diagnoses an `fswatch`-based auto-commit daemon for a vault. |
 
+### Marketing
+
+| Skill | What it does |
+|---|---|
+| [`promo-webinar`](./skills/marketing/promo-webinar) | Turns a short webinar brief into a 9-asset multichannel promo kit plus a publish calendar. |
+| [`sundai-campana-hack`](./skills/marketing/sundai-campana-hack) | Generates the full before/during/after content plan for a Sundai Latam hack campaign. |
+
 ## Repository layout
 
 ```text
 skills/
 |-- agent-operations/  # handoffs and human-agent communication
 |-- engineering/       # repository and implementation workflows
+|-- marketing/         # campaign copy and event promotion
 |-- obsidian-vault/    # knowledge-system operations
 `-- research/          # source discovery and synthesis
 ```

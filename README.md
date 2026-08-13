@@ -19,6 +19,7 @@ Use these skills when a repeatable workflow needs more than a prompt: determinis
 
 | Goal | Skill |
 |---|---|
+| Turn a data export into a dashboard that changes a decision | [`data-source-dashboard`](./skills/research/data-source-dashboard) |
 | Turn long-form sources into reusable research | [`research-pipeline`](./skills/research/research-pipeline) |
 | Sync a local repository without losing work | [`repo-sync`](./skills/engineering/repo-sync) |
 | Improve a GitHub README and ship the change | [`readme-commit`](./skills/engineering/readme-commit) |
@@ -56,6 +57,7 @@ The repository groups skills by category for browsing. Install or copy the indiv
 
 | Skill | What it does |
 |---|---|
+| [`data-source-dashboard`](./skills/research/data-source-dashboard) | Turns a raw export into an interactive dashboard: aggregates-only privacy, provenance on every number, scenario toggles, ES/EN and dark/light. |
 | [`research-pipeline`](./skills/research/research-pipeline) | Sends sources through NotebookLM and returns grounded notes, with optional infographic, podcast, or slides. |
 | [`youtube-search`](./skills/research/youtube-search) | Searches YouTube through `yt-dlp` and collects URLs plus metadata for research pipelines. |
 | [`daily-review-workflow`](./skills/research/daily-review-workflow) | Pulls synced sources, handles failures, and writes an end-of-day review note. |

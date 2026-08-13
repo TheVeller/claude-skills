@@ -1,0 +1,462 @@
+<meta charset="utf-8">
+<title>__TITLE__</title>
+<!--
+  Scaffold from the data-source-dashboard skill.
+  Sections below are the taxonomy skeleton: keep the ones the data supports,
+  delete the rest, add the ones this subject needs. Swap the accent tokens for
+  something that belongs to THIS subject before shipping — see
+  references/design-system.md and load the artifact-design + dataviz skills.
+-->
+<style>
+  /* ---------- tokens: light on bare :root, dark twice (system + explicit) ---------- */
+  :root {
+    --bg: #F4F3EF; --card: #FBFAF7; --border: #DCD9D0; --track: #E9E6DE;
+    --ink: #16181A; --ink-2: #4B5358; --muted: #8A8F94;
+    --accent: #146B54; --accent-soft: rgba(20, 107, 84, .14);
+    --warn: #9A6410;
+    --gridline: rgba(22, 24, 26, .06);
+    --tt-bg: #16181A; --tt-ink: #F4F3EF;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0B0D0C; --card: #121514; --border: #232827; --track: #1B211F;
+      --ink: #F1F2F0; --ink-2: #93A29B; --muted: #6A736E;
+      --accent: #3FC48E; --accent-soft: rgba(63, 196, 142, .13);
+      --warn: #E0A33C;
+      --gridline: rgba(241, 242, 240, .05);
+      --tt-bg: #F1F2F0; --tt-ink: #0B0D0C;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B0D0C; --card: #121514; --border: #232827; --track: #1B211F;
+    --ink: #F1F2F0; --ink-2: #93A29B; --muted: #6A736E;
+    --accent: #3FC48E; --accent-soft: rgba(63, 196, 142, .13);
+    --warn: #E0A33C;
+    --gridline: rgba(241, 242, 240, .05);
+    --tt-bg: #F1F2F0; --tt-ink: #0B0D0C;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  .mono, .label, .axis-t, .fbtn, .secnav a, .src {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  .label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- header + controls ---------- */
+  header { border-bottom: 1px solid var(--border); }
+  .head-in { max-width: 1080px; margin: 0 auto; padding: 32px 24px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: -.02em; }
+  .stamp { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); text-align: right; line-height: 1.8; }
+  .prefs { display: flex; gap: 6px; align-items: center; }
+  select.pref, .fbtn {
+    font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .08em;
+    padding: 6px 10px; border: 1px solid var(--border); background: var(--card); color: var(--ink);
+    border-radius: 0; cursor: pointer; appearance: none;
+  }
+  .fbtn { color: var(--ink-2); white-space: nowrap; }
+  .fbtn:hover { border-color: var(--accent); }
+  .fbtn.on { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .fbtn:focus-visible, select.pref:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px; }
+  .flabel { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .fsep { flex: 1; }
+  .fstate { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+
+  /* ---------- section nav: wraps and centers, never overflows ---------- */
+  .secnav { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--border); }
+  .secnav-inner { max-width: 1080px; margin: 0 auto; padding: 2px 16px; display: flex; flex-wrap: wrap; justify-content: center; gap: 0 4px; }
+  .secnav a { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); text-decoration: none; padding: 7px 8px; white-space: nowrap; }
+  .secnav a:hover { color: var(--accent); background: var(--card); }
+  .secnav a b { color: var(--accent); margin-right: 4px; }
+
+  /* ---------- layout ---------- */
+  main { max-width: 1080px; margin: 0 auto; padding: 24px 24px 8px; }
+  section { border: 1px solid var(--border); background: var(--card); margin-bottom: 24px; scroll-margin-top: 44px; }
+  .sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .sec-head h2 { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
+  .sec-head h2 .idx { color: var(--accent); margin-right: 8px; }
+  .sec-head .meta { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); text-align: right; }
+  .sec-body { padding: 16px; }
+  .note { font-size: 12.5px; color: var(--ink-2); margin: 12px 0 0; max-width: 72ch; }
+  .note strong { color: var(--ink); font-weight: 600; }
+  .chart-title { margin-bottom: 8px; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .split3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 900px) { .split3 { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .split { grid-template-columns: 1fr; } }
+
+  /* ---------- tiles ---------- */
+  .tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 24px; }
+  .tiles.mini { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 16px; }
+  @media (max-width: 760px) { .tiles, .tiles.mini { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .tile { background: var(--card); padding: 14px 16px 12px; }
+  .tile .v { font-size: 26px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .tile .v .up { color: var(--accent); } .tile .v .down { color: var(--warn); }
+  .tile .sub { font-size: 11px; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .tile .label .dyn { display: inline-block; width: 6px; height: 6px; background: var(--accent); margin-right: 5px; }
+
+  /* ---------- index rows ---------- */
+  .rows { display: flex; flex-direction: column; gap: 7px; }
+  .row { display: grid; grid-template-columns: 150px 1fr 84px; align-items: center; gap: 10px; padding: 1px 2px; }
+  .row:hover { background: var(--track); }
+  .row .k { font-family: ui-monospace, monospace; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row .bar { height: 14px; background: var(--track); position: relative; }
+  .row .bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent); display: block; }
+  .row .bar i.alt { background: var(--warn); }
+  .row .n { font-family: ui-monospace, monospace; font-size: 11px; color: var(--ink-2); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ---------- tables ---------- */
+  .tbl-wrap { overflow-x: auto; }
+  table.tbl { width: 100%; border-collapse: collapse; }
+  table.tbl th { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); font-weight: 400; text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  table.tbl td { font-family: ui-monospace, monospace; font-size: 11px; font-variant-numeric: tabular-nums; text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  table.tbl th:first-child, table.tbl td:first-child { text-align: left; }
+  table.tbl tr:last-child td { border-bottom: none; }
+
+  /* ---------- provenance ---------- */
+  .src { font-size: 9px; text-transform: uppercase; letter-spacing: .06em; padding: 1px 4px; border: 1px solid; margin-left: 5px; white-space: nowrap; }
+  .src.observed { color: var(--accent); border-color: var(--accent); }
+  .src.benchmark { color: var(--ink-2); border-color: var(--border); }
+  .src.assumed { color: var(--warn); border-color: var(--warn); }
+
+  /* ---------- as-of slider (own full-width row: sharing one shifts the track mid-drag) ---------- */
+  .asofbox { border: 1px solid var(--border); background: var(--bg); padding: 14px 16px 6px; margin-bottom: 16px; }
+  .asof { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .asoflbl { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink); flex: 1; min-width: 0; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .asoftrack { position: relative; width: 100%; padding-top: 8px; margin-bottom: 10px; }
+  input[type="range"].asofr { display: block; width: 100%; margin: 0; -webkit-appearance: none; appearance: none; height: 2px; background: var(--border); outline: none; cursor: pointer; }
+  .asofr::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: var(--accent); border: none; cursor: pointer; }
+  .asofr::-moz-range-thumb { width: 14px; height: 14px; background: var(--accent); border: none; cursor: pointer; }
+  .asofruler { position: relative; height: 20px; margin: 2px 7px 0; border-top: 1px solid var(--border); }
+  .asofruler .tick { position: absolute; top: 0; width: 1px; height: 5px; background: var(--ink-2); }
+  .asofruler .tlbl { position: absolute; top: 7px; transform: translateX(-50%); font-family: ui-monospace, monospace; font-size: 9px; color: var(--muted); white-space: nowrap; }
+  .asofruler .tlbl.first { transform: translateX(0); } .asofruler .tlbl.last { transform: translateX(-100%); }
+
+  /* ---------- charts ---------- */
+  svg.chart { display: block; width: 100%; height: auto; }
+  .grid-l { stroke: var(--gridline); stroke-width: 1; }
+  .axis-t { font-size: 9px; fill: var(--muted); letter-spacing: .05em; }
+  .bar-rect { fill: var(--accent); } .bar-rect.dim { fill: var(--track); }
+  .bar-neg { fill: var(--warn); }
+  .area-fill { fill: var(--accent-soft); }
+  .area-line { stroke: var(--accent); stroke-width: 2; fill: none; }
+  .end-dot { fill: var(--accent); }
+  .end-lbl { font-family: ui-monospace, monospace; font-size: 11px; font-weight: 700; fill: var(--ink); }
+  .xhair { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+  .dash { fill: none; stroke-dasharray: 5 4; stroke-width: 1.5; }
+
+  /* ---------- numbered lists (min-width:0 or long words overflow the grid) ---------- */
+  .items { margin: 0; padding: 0; list-style: none; counter-reset: it; display: flex; flex-direction: column; gap: 10px; }
+  .items li { counter-increment: it; display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: 12.5px; color: var(--ink-2); max-width: 78ch; }
+  .items li > span { min-width: 0; overflow-wrap: anywhere; }
+  .items li::before { content: counter(it, decimal-leading-zero); font-family: ui-monospace, monospace; font-size: 10px; color: var(--accent); border: 1px solid var(--border); height: 20px; display: flex; align-items: center; justify-content: center; }
+  .items strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- diagram ---------- */
+  figure.diagram { margin: 18px 0 0; }
+  figure.diagram img { width: 100%; max-width: 100%; height: auto; display: block; border: 1px solid var(--border); background: #fff; }
+  figure.diagram figcaption { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 6px; }
+
+  /* ---------- footer + tooltip ---------- */
+  footer { max-width: 1080px; margin: 0 auto; padding: 8px 24px 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+  #tt { position: fixed; pointer-events: none; background: var(--tt-bg); color: var(--tt-ink); font-family: ui-monospace, monospace; font-size: 10px; padding: 5px 8px; display: none; z-index: 10; white-space: nowrap; }
+  @media (prefers-reduced-motion: no-preference) { .row .bar i { transition: width .5s ease-out; } }
+</style>
+
+<header>
+  <div class="head-in">
+    <div>
+      <h1>__TITLE__</h1>
+      <div class="label" data-key="hdr.sub">what this dashboard decides</div>
+    </div>
+    <div class="prefs">
+      <select class="pref" id="langSelect" aria-label="Language"><option value="es">ES</option><option value="en">EN</option></select>
+      <button class="fbtn on" id="themeAuto" data-theme-set="auto">AUTO</button>
+      <button class="fbtn" id="themeLight" data-theme-set="light">LIGHT</button>
+      <button class="fbtn" id="themeDark" data-theme-set="dark">DARK</button>
+    </div>
+    <div class="stamp" id="stamp"></div>
+  </div>
+</header>
+
+<nav class="secnav" aria-label="Sections">
+  <div class="secnav-inner" id="secnav"></div>
+</nav>
+
+<main>
+  <div class="tiles" id="tiles"></div>
+
+  <section id="s1">
+    <div class="sec-head">
+      <h2><span class="idx">01</span><span data-key="sec.growth">Growth</span></h2>
+      <div class="meta" data-key="sec.growth.meta">cumulative · periodic · rate</div>
+    </div>
+    <div class="sec-body">
+      <div class="asofbox">
+        <div class="asof">
+          <span class="flabel" data-key="ui.asof">reference date</span>
+          <button class="fbtn" id="dayPrev" aria-label="Previous day">‹</button>
+          <button class="fbtn" id="dayNext" aria-label="Next day">›</button>
+          <span class="asoflbl num" id="asofLabel"></span>
+        </div>
+        <div class="asoftrack">
+          <input type="range" class="asofr" id="asofRange" aria-label="Reference date">
+          <div class="asofruler" id="asofRuler" aria-hidden="true"></div>
+        </div>
+        <div class="tiles mini" id="dynTiles"></div>
+      </div>
+      <div class="label chart-title" data-key="ch.cumulative">cumulative</div>
+      <svg class="chart" id="cumChart" viewBox="0 0 1040 220" role="img"></svg>
+      <div class="label chart-title" style="margin-top:20px" data-key="ch.periodic">new per week</div>
+      <svg class="chart" id="weekChart" viewBox="0 0 1040 170" role="img"></svg>
+      <p class="note" id="growthNote"></p>
+    </div>
+  </section>
+
+  <!-- Keep the sections the data supports; delete the rest.
+       02 acquisition · 03 engagement · 04 cohorts · 05 engine · 06 activity
+       07 forecast · 08 monetization · 09 ladder · 10 pipeline · 11 plan · 12 summary
+       Each: <section id="sN"> + sec-head with idx + data-key + a closing .note -->
+
+  <section id="s12">
+    <div class="sec-head">
+      <h2><span class="idx">12</span><span data-key="sec.summary">Executive summary</span></h2>
+      <div class="meta" id="sumMeta"></div>
+    </div>
+    <div class="sec-body">
+      <p class="note" id="sumState" style="margin-top:0;max-width:none;font-size:13.5px"></p>
+      <div class="split" style="margin-top:18px">
+        <div><div class="label chart-title" style="color:var(--accent)" data-key="sum.works">what works</div><ol class="items" id="sumWorks"></ol></div>
+        <div><div class="label chart-title" style="color:var(--warn)" data-key="sum.risks">what's at risk</div><ol class="items" id="sumRisks"></ol></div>
+      </div>
+      <figure class="diagram" id="mechanismFigure" hidden>
+        <img id="mechanismImg" alt="" src="__DIAGRAM_MECHANISM__">
+        <figcaption data-key="fig.mechanism">the mechanism behind the numbers</figcaption>
+      </figure>
+      <div style="margin-top:22px;border-top:1px solid var(--border);padding-top:16px">
+        <span class="label" data-key="sum.bottom">bottom line</span>
+        <div id="sumBottom" style="font-size:15px;font-weight:600;color:var(--ink);max-width:72ch;margin-top:6px"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="label" id="quality"></div>
+  <div class="label" data-key="foot.made">built from the source export · aggregates only</div>
+</footer>
+
+<div id="tt"></div>
+
+<script id="metrics" type="application/json">__METRICS_JSON__</script>
+<script>
+  const M = JSON.parse(document.getElementById('metrics').textContent);
+  const fmt = (n) => n.toLocaleString('en-US');
+  const pct = (a, b) => ((a / b) * 100).toFixed(1) + '%';
+  const sgn = (v) => (v >= 0 ? '+' : '') + v + '%';
+  const srcTag = (s) => `<span class="src ${s}">${(I18N[LANG]['src.' + s]) || s}</span>`;
+
+  /* ---------- i18n: every visible string has a key, both dictionaries stay complete ---------- */
+  const I18N = {
+    en: {
+      'hdr.sub': 'what this dashboard decides',
+      'sec.growth': 'Growth', 'sec.growth.meta': 'cumulative · periodic · rate',
+      'sec.summary': 'Executive summary',
+      'ui.asof': 'reference date', 'ch.cumulative': 'cumulative', 'ch.periodic': 'new per week',
+      'sum.works': 'what works', 'sum.risks': "what's at risk", 'sum.bottom': 'bottom line',
+      'fig.mechanism': 'the mechanism behind the numbers',
+      'foot.made': 'built from the source export · aggregates only',
+      'src.observed': 'observed', 'src.benchmark': 'benchmark', 'src.assumed': 'assumed',
+      'nav.growth': 'growth', 'nav.summary': 'summary',
+    },
+    es: {
+      'hdr.sub': 'qué decide este dashboard',
+      'sec.growth': 'Crecimiento', 'sec.growth.meta': 'acumulado · por periodo · tasa',
+      'sec.summary': 'Resumen ejecutivo',
+      'ui.asof': 'fecha de referencia', 'ch.cumulative': 'acumulado', 'ch.periodic': 'nuevos por semana',
+      'sum.works': 'qué funciona', 'sum.risks': 'qué está en riesgo', 'sum.bottom': 'conclusión',
+      'fig.mechanism': 'el mecanismo detrás de los números',
+      'foot.made': 'construido desde el export · solo agregados',
+      'src.observed': 'observado', 'src.benchmark': 'benchmark', 'src.assumed': 'supuesto',
+      'nav.growth': 'crecimiento', 'nav.summary': 'resumen',
+    },
+  };
+  let LANG = 'es';
+  function applyLang() {
+    document.querySelectorAll('[data-key]').forEach((el) => {
+      const v = I18N[LANG][el.getAttribute('data-key')];
+      if (v) el.textContent = v;
+    });
+    renderAll();
+  }
+  document.getElementById('langSelect').addEventListener('change', (e) => { LANG = e.target.value; applyLang(); });
+
+  /* ---------- theme: auto keeps the OS setting, the others stamp the root ---------- */
+  document.querySelectorAll('[data-theme-set]').forEach((b) => {
+    b.addEventListener('click', () => {
+      const v = b.dataset.themeSet;
+      document.querySelectorAll('[data-theme-set]').forEach((x) => x.classList.remove('on'));
+      b.classList.add('on');
+      if (v === 'auto') document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', v);
+    });
+  });
+
+  /* ---------- section nav, built from the sections actually present ---------- */
+  document.getElementById('secnav').innerHTML = [...document.querySelectorAll('section[id^="s"]')]
+    .map((s) => {
+      const idx = s.querySelector('.idx')?.textContent.trim() ?? '';
+      const key = s.querySelector('h2 [data-key]')?.getAttribute('data-key') ?? '';
+      return `<a href="#${s.id}"><b>${idx}</b><span data-key="${key}">${I18N[LANG][key] ?? ''}</span></a>`;
+    }).join('');
+
+  /* ---------- tooltip ---------- */
+  const tt = document.getElementById('tt');
+  const showTT = (html, x, y) => {
+    tt.innerHTML = html; tt.style.display = 'block';
+    tt.style.left = Math.min(x + 12, window.innerWidth - tt.offsetWidth - 8) + 'px';
+    tt.style.top = (y - 34) + 'px';
+  };
+  const hideTT = () => { tt.style.display = 'none'; };
+
+  /* ---------- as-of slider: prefix sums make every rolling window O(1) ---------- */
+  const g = M.growth;
+  const prefix = [0];
+  g.daily.forEach((d) => prefix.push(prefix[prefix.length - 1] + d.n));
+  const winSum = (i, len) => prefix[i + 1] - prefix[Math.max(0, i + 1 - len)];
+  const isoW = (s) => {
+    const dt = new Date(s + 'T00:00:00Z');
+    dt.setUTCDate(dt.getUTCDate() - ((dt.getUTCDay() + 6) % 7) + 3);
+    const jan4 = new Date(Date.UTC(dt.getUTCFullYear(), 0, 4));
+    return 1 + Math.round(((dt - jan4) / 86400000 - 3 + ((jan4.getUTCDay() + 6) % 7)) / 7);
+  };
+  const asof = document.getElementById('asofRange');
+  const lastIdx = g.daily.length - 1;
+  asof.min = 0; asof.max = lastIdx; asof.value = lastIdx;
+  (function ruler() {
+    let html = '', lastPct = -100;
+    const starts = g.daily.map((d, i) => ({ d: d.d, i })).filter(({ d }, k) => d.slice(8) === '01' || k === 0);
+    starts.forEach(({ d, i }, k) => {
+      const x = (i / lastIdx) * 100;
+      html += `<span class="tick" style="left:${x.toFixed(2)}%"></span>`;
+      if (x - lastPct >= 7 || k === starts.length - 1) {
+        html += `<span class="tlbl${x < 3 ? ' first' : x > 93 ? ' last' : ''}" style="left:${x.toFixed(2)}%">${d.slice(2, 7)}</span>`;
+        lastPct = x;
+      }
+    });
+    document.getElementById('asofRuler').innerHTML = html;
+  })();
+
+  const tileHTML = ([k, v, s]) => `<div class="tile"><div class="label">${k}</div><div class="v num">${v}</div><div class="sub">${s}</div></div>`;
+
+  function renderDynTiles(i) {
+    const cum = g.daily[i].cum, DYN = '<span class="dyn"></span>';
+    const l7 = winSum(i, 7), p7 = winSum(Math.max(0, i - 7), 7), l30 = winSum(i, 30), l90 = winSum(i, 90);
+    const wow = p7 ? +(((l7 - p7) / p7) * 100).toFixed(1) : null;
+    document.getElementById('dynTiles').innerHTML = [
+      [DYN + 'total', fmt(cum), 'as of ' + g.daily[i].d],
+      [DYN + 'last 7d', '+' + fmt(l7), 'prev 7d: ' + fmt(p7)],
+      [DYN + 'last 30d', '+' + fmt(l30), pct(l30, cum) + ' of the total then'],
+      [DYN + 'wow', wow === null ? '—' : `<span class="${wow >= 0 ? 'up' : 'down'}">${sgn(wow)}</span>`, 'weekly change'],
+    ].map(tileHTML).join('');
+  }
+  function onAsof() {
+    const i = +asof.value, d = g.daily[i];
+    document.getElementById('asofLabel').textContent =
+      `${d.d} · w${String(isoW(d.d)).padStart(2, '0')}${i === lastIdx ? ' · latest' : ''}`;
+    renderDynTiles(i);
+  }
+  asof.addEventListener('input', onAsof);
+  document.getElementById('dayPrev').addEventListener('click', () => { asof.value = Math.max(0, +asof.value - 1); onAsof(); });
+  document.getElementById('dayNext').addEventListener('click', () => { asof.value = Math.min(lastIdx, +asof.value + 1); onAsof(); });
+
+  /* ---------- charts ---------- */
+  function renderCum() {
+    const svg = document.getElementById('cumChart');
+    const W = 1040, H = 220, mL = 8, mR = 84, mT = 18, mB = 22, iw = W - mL - mR, ih = H - mT - mB;
+    const pts = g.daily, max = pts[pts.length - 1].cum || 1;
+    const X = (i) => mL + (i / (pts.length - 1)) * iw, Y = (v) => mT + ih - (v / max) * ih;
+    let el = '';
+    for (let q = 1; q <= 3; q++) {
+      const v = (max * q) / 4;
+      el += `<line class="grid-l" x1="${mL}" x2="${mL + iw}" y1="${Y(v)}" y2="${Y(v)}"/>`;
+      el += `<text class="axis-t" x="${mL + iw + 6}" y="${Y(v) + 3}">${v >= 1000 ? (v / 1000).toFixed(1) + 'k' : Math.round(v)}</text>`;
+    }
+    const path = pts.map((p, i) => `${X(i).toFixed(1)},${Y(p.cum).toFixed(1)}`).join(' ');
+    el += `<polygon class="area-fill" points="${mL},${mT + ih} ${path} ${mL + iw},${mT + ih}"/><polyline class="area-line" points="${path}"/>`;
+    let lastMo = '';
+    pts.forEach((p, i) => { const mo = p.d.slice(0, 7); if (mo !== lastMo) { lastMo = mo; el += `<text class="axis-t" x="${X(i)}" y="${H - 6}">${mo.slice(2)}</text>`; } });
+    el += `<circle class="end-dot" cx="${X(pts.length - 1)}" cy="${Y(max)}" r="4"/>`;
+    el += `<text class="end-lbl" x="${X(pts.length - 1) + 8}" y="${Y(max) + 4}">${fmt(max)}</text>`;
+    el += `<rect x="${mL}" y="${mT}" width="${iw}" height="${ih}" fill="transparent" id="cumHit"/>`;
+    svg.innerHTML = el;
+    document.getElementById('cumHit').onmousemove = (e) => {
+      const r = svg.getBoundingClientRect();
+      const i = Math.max(0, Math.min(pts.length - 1, Math.round((((e.clientX - r.left) / r.width) * W - mL) / iw * (pts.length - 1))));
+      showTT(`${pts[i].d} · ${fmt(pts[i].cum)} · +${fmt(pts[i].n)}`, e.clientX, e.clientY);
+    };
+    document.getElementById('cumHit').onmouseleave = hideTT;
+  }
+
+  function renderWeeks() {
+    const svg = document.getElementById('weekChart');
+    const W = 1040, H = 170, mL = 8, mR = 44, mT = 20, mB = 22, iw = W - mL - mR, ih = H - mT - mB;
+    const wk = g.weekly, max = Math.max(...wk.map((w) => w.n), 1), bw = iw / wk.length;
+    let el = '';
+    for (let q = 1; q <= 2; q++) {
+      const v = (max * q) / 2, y = mT + ih - (v / max) * ih;
+      el += `<line class="grid-l" x1="${mL}" x2="${mL + iw}" y1="${y}" y2="${y}"/><text class="axis-t" x="${mL + iw + 6}" y="${y + 3}">${Math.round(v)}</text>`;
+    }
+    const peakI = wk.reduce((a, w, i) => (w.n > wk[a].n ? i : a), 0);
+    wk.forEach((w, i) => {
+      const h = Math.max(1, (w.n / max) * ih), x = mL + i * bw + 1.5, y = mT + ih - h;
+      el += `<rect class="bar-rect" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${Math.max(1, bw - 3).toFixed(1)}" height="${h.toFixed(1)}" data-i="${i}"/>`;
+      if (i === peakI) el += `<text class="axis-t" x="${Math.min(x + bw / 2, W - 70)}" y="${y - 6}" text-anchor="middle" style="fill:var(--ink-2)">${fmt(w.n)} · ${w.w}</text>`;
+      if (i % Math.max(1, Math.ceil(wk.length / 8)) === 0) el += `<text class="axis-t" x="${x + bw / 2}" y="${H - 6}" text-anchor="middle">${w.w.slice(5)}</text>`;
+    });
+    svg.innerHTML = el;
+    svg.onmousemove = (e) => { const t = e.target; if (t.dataset?.i !== undefined) showTT(`${wk[+t.dataset.i].w} · +${fmt(wk[+t.dataset.i].n)}`, e.clientX, e.clientY); else hideTT(); };
+    svg.onmouseleave = hideTT;
+  }
+
+  /* ---------- time-dynamics: the snapshot ages against the viewer's clock ---------- */
+  function renderStamp() {
+    const elapsed = Math.floor((Date.now() - Date.parse(M.exportDate)) / 86400000);
+    const ago = elapsed <= 0 ? 'today' : elapsed + 'd ago';
+    const stale = elapsed > 30;
+    document.getElementById('stamp').innerHTML =
+      `<span style="${stale ? 'color:var(--warn)' : ''}">export · ${M.exportDate} · ${ago}${stale ? ' · refresh suggested' : ''}</span><br>` +
+      `${M.growth.firstDay} → ${M.growth.lastDay} · ${M.age?.days ?? ''} days<br>aggregates only · no personal data`;
+  }
+
+  function renderAll() {
+    renderStamp();
+    onAsof();
+    renderCum();
+    renderWeeks();
+    // TODO: render the sections you kept, each ending in a computed sentence
+    document.getElementById('growthNote').innerHTML =
+      `<strong>${fmt(M.totals.records)}</strong> records over ${M.age?.days ?? g.daily.length} days` +
+      (M.growthRate?.wowNowPct !== null && M.growthRate ? ` · ${sgn(M.growthRate.wowNowPct)} week over week` : '') + '.';
+    document.getElementById('quality').textContent = `generated ${M.generatedAt.slice(0, 16).replace('T', ' ')}z`;
+    const fig = document.getElementById('mechanismFigure');
+    if (fig && !document.getElementById('mechanismImg').src.startsWith('__')) fig.hidden = false;
+  }
+
+  document.getElementById('tiles').innerHTML = [
+    ['total', fmt(M.totals.records), 'since ' + g.firstDay],
+    ['peak day', fmt(g.peakCount), g.peakDay],
+    ['baseline', fmt(M.kpis?.medianWeekly ?? 0) + '/wk', 'median week, spikes excluded'],
+    ['spike dependence', (M.kpis?.spikeDependencePct ?? 0) + '%', 'share from the top-10 days'],
+    ['returning', fmt(M.kpis?.returning ?? 0), (M.kpis?.returningPct ?? 0) + '% of records'],
+  ].map(tileHTML).join('');
+
+  applyLang();
+</script>

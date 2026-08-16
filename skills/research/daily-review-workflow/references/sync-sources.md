@@ -6,18 +6,18 @@ Detailed information about each data source synced during daily pull.
 
 **Script:** `.scripts/linear-sync.js`
 
-**Purpose:** Sync assigned issues from Linear workspace "Crafter Station"
+**Purpose:** Sync assigned issues from your Linear workspace
 
 **What it syncs:**
 - Issues assigned to current user
 - Issues with status != Done
 - Issues due today or overdue
 
-**Output location:** Daily note → Tasks → From Linear (Crafter Station)
+**Output location:** Daily note → Tasks → From Linear
 
 **Required:**
 - Linear MCP server configured
-- Workspace: "Crafter Station" (team: MakerPunks, key: MAK)
+- Workspace, team, and issue-key prefix configured for your Linear account
 
 **Error handling:** If Linear MCP unavailable, skips sync and continues
 

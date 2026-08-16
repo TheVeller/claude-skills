@@ -1,0 +1,12 @@
+interface:
+  display_name: "Govern Agentic OS"
+  short_description: "Audit and govern the Agentic OS workspace"
+  default_prompt: "Use $govern-agentic-os to check project and documentation coherence."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "linear"
+      description: "Read and update canonical Agentic OS project documents and issues"
+      transport: "streamable_http"
+      url: "https://mcp.linear.app/mcp"

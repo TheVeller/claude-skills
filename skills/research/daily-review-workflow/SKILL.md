@@ -24,7 +24,7 @@ The daily review process follows a **Sync → Analyze → Report** flow:
 This script orchestrates syncs from multiple sources:
 
 1. **Fathom** - Meeting recordings (new ones since today)
-2. **Linear** - Issues from Crafter Station workspace
+2. **Linear** - Issues from your Linear workspace
 3. **Notion** - Tasks from multiple databases:
    - Personal tablero
    - Goals-OS database
@@ -124,7 +124,7 @@ The daily note template includes sections that get populated by syncs:
 - [Meetings appear here]
 
 ## Tasks
-### From Linear (Crafter Station)
+### From Linear
 <!-- Updated by linear-sync.js -->
 - [ ] [Issues appear here]
 

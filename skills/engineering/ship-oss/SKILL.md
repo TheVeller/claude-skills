@@ -3,7 +3,7 @@ name: ship-oss
 description: >
   General OSS-readiness pass for a repo before it goes public: sweep the full tree
   (not just README) for secrets and internal/personal references, verify LICENSE and
-  .gitignore, run the Crafter secret/owner gate, delegate README polish to readme-commit,
+  .gitignore, run a fail-closed secret scan, delegate README polish to readme-commit,
   then flip GitHub visibility to public and push. Use when the user says "prepara este
   repo para open source", "hazlo público", "ship this as OSS", "publica este repo",
   "make this repo public", "ready this for GitHub", or "/ship-oss".
@@ -20,9 +20,13 @@ scoped one layer up: **is the whole repo safe and complete to expose**, not just
 
 | Concern | Owner |
 |---|---|
-| Secret-pattern scan + owner verification | `gh-org-publish` (`crafter-oss-gate.sh`, `check-origin-owner.sh`) |
 | README structure/taste/Excalidraw flow | `readme-commit` |
 | Dependency / supply-chain risk | `supply-chain-audit` (third-party, crafter-station) — only if the repo has a package manifest |
+
+The secret/owner scan in step 5 is inlined below so this skill works standalone. If this
+install also has `gh-org-publish`, its `crafter-oss-gate.sh` + `check-origin-owner.sh`
+run the same checks wired to a maintained owner-alias table — prefer those when present
+instead of retyping the commands below.
 
 ## Modes
 
@@ -39,9 +43,10 @@ target `owner/repo` and get explicit confirmation before step 6.
 
 ### 1. Scope
 
-Resolve target: `$ARGUMENTS` if given, else current repo's `origin`. Confirm the intended
-owner (personal `TheVeller` vs an org) using the alias table in `gh-org-publish` — don't
-re-derive it here.
+Resolve target: `$ARGUMENTS` if given, else current repo's `origin`. State the intended
+owner (personal account vs an org) explicitly and confirm it with the user before doing
+anything else — never assume. If this vault also has `gh-org-publish`, its alias table is
+canonical; use it instead of re-deriving the owner here.
 
 ### 2. Sanitization sweep (full tracked tree, not just README)
 
@@ -62,7 +67,7 @@ never by explaining the leak away.
 
 ### 3. LICENSE
 
-- Missing → ask which license (default MIT, matching this org's existing OSS repos) and add it.
+- Missing → ask which license (MIT is a safe default for most personal/OSS repos) and add it.
 - Present → confirm it matches what the README/footer claims.
 
 ### 4. `.gitignore`
@@ -73,14 +78,31 @@ lines; don't rewrite an already-adequate file.
 
 ### 5. Hygiene gate (fail closed)
 
+Tracked-files-only scan (`git ls-files`) — pair it with the manual sweep in step 2, which
+catches internal-context leaks a pattern scan isn't built to see.
+
 ```bash
-bash .agents/skills/gh-org-publish/crafter-oss-gate.sh .
-bash .agents/skills/gh-org-publish/check-origin-owner.sh <EXPECTED_OWNER> .
+# Filename denylist — secret-shaped paths, allow .env.example
+git ls-files | grep -E \
+  '(^|/)\.env($|\.)|(^|/)secrets\.local\.json$|(^|/)credentials\.json$|service-account.*\.json$' \
+  | grep -vE '(^|/)\.env\.example$'
+
+# Content patterns over tracked files only
+git ls-files -z | xargs -0 rg -n --hidden \
+  -e 'BEGIN PRIVATE KEY' \
+  -e 'ghp_[A-Za-z0-9]{20,}' \
+  -e 'sk-[A-Za-z0-9]{20,}' \
+  -e 'xoxb-[A-Za-z0-9-]+' \
+  -e 'AKIA[0-9A-Z]{16}' \
+  -e '(?i)api[_-]?key\s*=\s*\S+'
+
+# Origin owner check — confirm before any push
+git remote get-url origin
 ```
 
-Any non-zero exit → stop, report, do not proceed to step 6. This is a tracked-files-only
-scan (`git ls-files`) — pair it with the manual sweep in step 2, which catches
-internal-context leaks the pattern gate isn't built to see.
+Any hit on the first two commands → stop, report, do not proceed to step 6 until fixed and
+re-scanned. Confirm the printed origin URL's owner matches what was agreed in step 1 before
+any push.
 
 If the repo has a dependency manifest (`package.json`, `requirements.txt`, `go.mod`, …),
 offer the `supply-chain-audit` skill for a deeper third-party dependency pass — don't run
@@ -104,7 +126,7 @@ bar, and the Excalidraw flow diagram if the repo needs one. Don't duplicate its 
 - [ ] Full-tree sanitization sweep run and clean (or fixes applied + re-swept)
 - [ ] LICENSE present and correct
 - [ ] `.gitignore` covers secrets/env/build noise
-- [ ] `crafter-oss-gate.sh` + `check-origin-owner.sh` both exit 0
+- [ ] Filename + content secret scan clean, origin owner confirmed
 - [ ] README passed through `readme-commit`
 - [ ] Visibility confirmed public via `gh repo view` (publish mode only)
 - [ ] Push done **or** dry-run documented — no silent push

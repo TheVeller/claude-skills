@@ -23,6 +23,7 @@ Use these skills when a repeatable workflow needs more than a prompt: determinis
 | Turn long-form sources into reusable research | [`research-pipeline`](./skills/research/research-pipeline) |
 | Sync a local repository without losing work | [`repo-sync`](./skills/engineering/repo-sync) |
 | Improve a GitHub README and ship the change | [`readme-commit`](./skills/engineering/readme-commit) |
+| Prepare a whole repo and ship it as public open source | [`ship-oss`](./skills/engineering/ship-oss) |
 | Transfer work into a fresh Orca agent terminal | [`orca-handoff`](./skills/agent-operations/orca-handoff) |
 | Explain a technical decision to a non-developer | [`no-dev`](./skills/agent-operations/no-dev) |
 | Keep an Obsidian vault committed continuously | [`autocommit`](./skills/obsidian-vault/autocommit) |
@@ -68,6 +69,7 @@ The repository groups skills by category for browsing. Install or copy the indiv
 | Skill | What it does |
 |---|---|
 | [`readme-commit`](./skills/engineering/readme-commit) | Audits or creates a useful GitHub README, verifies it against the repository, then commits it. |
+| [`ship-oss`](./skills/engineering/ship-oss) | Sweeps a whole repository for secrets and internal references, verifies LICENSE and `.gitignore`, then flips GitHub visibility to public. Delegates to `gh-org-publish` and `readme-commit`, not included here. |
 | [`repo-sync`](./skills/engineering/repo-sync) | Detects ahead, behind, and diverged states; fast-forwards safely and backs up before destructive syncs. |
 | [`intent-layer`](./skills/engineering/intent-layer) | Captures intent and structural constraints before implementation. |
 | [`clone-software-repo`](./skills/engineering/clone-software-repo) | Clones an external repository into a managed software workspace. |

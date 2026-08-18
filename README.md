@@ -68,7 +68,7 @@ The repository groups skills by category for browsing. Install or copy the indiv
 
 | Skill | What it does |
 |---|---|
-| [`readme-commit`](./skills/engineering/readme-commit) | Audits or creates a useful GitHub README, verifies it against the repository, then commits it. |
+| [`readme-commit`](./skills/engineering/readme-commit) | Ships a GitHub README with channel Compatible-with (not stack), Surfaces/App-tools matrix, stack badges, native About sync, and a fail-closed `--repo` gate. |
 | [`ship-oss`](./skills/engineering/ship-oss) | Sweeps a whole repository for secrets and internal references, verifies LICENSE and `.gitignore`, then flips GitHub visibility to public. Delegates README polish to `readme-commit`. |
 | [`repo-sync`](./skills/engineering/repo-sync) | Detects ahead, behind, and diverged states; fast-forwards safely and backs up before destructive syncs. |
 | [`intent-layer`](./skills/engineering/intent-layer) | Captures intent and structural constraints before implementation. |

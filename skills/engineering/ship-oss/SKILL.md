@@ -1,5 +1,6 @@
 ---
 name: ship-oss
+version: 0.2.0
 description: >
   General OSS-readiness pass for a repo before it goes public: sweep the full tree
   (not just README) for secrets and internal/personal references, verify LICENSE and
@@ -7,7 +8,7 @@ description: >
   then flip GitHub visibility to public and push. Use when the user says "prepara este
   repo para open source", "hazlo público", "ship this as OSS", "publica este repo",
   "make this repo public", "ready this for GitHub", or "/ship-oss".
-argument-hint: "[owner/repo opcional] [--dry-run|--publish]"
+argument-hint: "[optional owner/repo] [--dry-run|--publish]"
 category: engineering
 ---
 
@@ -21,12 +22,7 @@ scoped one layer up: **is the whole repo safe and complete to expose**, not just
 | Concern | Owner |
 |---|---|
 | README structure/taste/Excalidraw flow | `readme-commit` |
-| Dependency / supply-chain risk | `supply-chain-audit` (third-party, crafter-station) — only if the repo has a package manifest |
-
-The secret/owner scan in step 5 is inlined below so this skill works standalone. If this
-install also has `gh-org-publish`, its `crafter-oss-gate.sh` + `check-origin-owner.sh`
-run the same checks wired to a maintained owner-alias table — prefer those when present
-instead of retyping the commands below.
+| Dependency / supply-chain risk | `supply-chain-audit` — only if the repo has a package manifest |
 
 ## Modes
 
@@ -36,8 +32,8 @@ instead of retyping the commands below.
 | **publish** | Same sweep, fixes applied, gates green | only on explicit user order |
 
 Never flip a repo to public or push as a side effect of "looks done" — this is a
-hard-to-reverse, externally-visible action (see global safety rules). Always state the
-target `owner/repo` and get explicit confirmation before step 6.
+hard-to-reverse, externally-visible action. Always state the target `owner/repo` and get
+explicit confirmation before step 6.
 
 ## Workflow
 
@@ -45,22 +41,19 @@ target `owner/repo` and get explicit confirmation before step 6.
 
 Resolve target: `$ARGUMENTS` if given, else current repo's `origin`. State the intended
 owner (personal account vs an org) explicitly and confirm it with the user before doing
-anything else — never assume. If this vault also has `gh-org-publish`, its alias table is
-canonical; use it instead of re-deriving the owner here.
+anything else — never assume.
 
 ### 2. Sanitization sweep (full tracked tree, not just README)
 
 Scan `git ls-files` output for content that leaks internal/personal context:
 
-- Issue-tracker refs meant to stay internal: `MAK-\d+`, `linear\.app/<workspace>` URLs
+- Issue-tracker refs meant to stay internal: `MAK-\d+`, private Linear workspace URLs
 - Absolute local paths: `/Users/<name>/`, Google Drive sync paths (`CloudStorage/...`)
 - Fixture/example data that is actually real (real journal notes, real emails, real
-  transcripts) — PARA folder *names* like `01_Journal/`, `06_Metadata/` are semantic and
-  fine to keep; the leak risk is real *content* inside them, not the folder convention
+  transcripts)
 - Vendored/bulk-installed content with unclear provenance — a `license:` frontmatter key,
-  an `AUTO-GENERATED` header, or a bulk "add N files" commit (not a dedicated
-  `feat: add <thing>` commit) means it's third-party: exclude it or credit it in an
-  Attribution section, never claim it as own-authored
+  an `AUTO-GENERATED` header, or a bulk "add N files" commit means it's third-party:
+  exclude it or credit it in an Attribution section, never claim it as own-authored
 
 Report every hit with file:line before touching anything. Fix by redacting/removing —
 never by explaining the leak away.
@@ -110,14 +103,14 @@ it silently, it's a separate skill with its own scope.
 
 ### 6. README polish
 
-Delegate to `readme-commit` (`.claude/skills/readme-commit/SKILL.md`) for structure, taste
-bar, and the Excalidraw flow diagram if the repo needs one. Don't duplicate its checklist.
+Delegate to `readme-commit` for structure, taste bar, and the diagram flow if the repo
+needs one. Don't duplicate its checklist.
 
 ### 7. Publish (human-confirmed, `--publish` mode only)
 
 1. All of steps 2–5 green, target owner confirmed with the user.
 2. Visibility: `gh repo edit <owner>/<repo> --visibility public` (repo must already exist
-   on GitHub under that owner — transfer first via `gh-org-publish` if not).
+   on GitHub under that owner).
 3. Verify: `gh repo view <owner>/<repo> --json visibility,isPrivate`.
 4. Push only after visibility is confirmed public and the user has explicitly said to ship.
 

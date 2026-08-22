@@ -24,6 +24,7 @@ Use these skills when a repeatable workflow needs more than a prompt: determinis
 | Sync a local repository without losing work | [`repo-sync`](./skills/engineering/repo-sync) |
 | Improve a GitHub README and ship the change | [`readme-commit`](./skills/engineering/readme-commit) |
 | Ingest a package into Notion Publisher CMS | [`to-cms`](./skills/engineering/to-cms) |
+| Format scout findings / GM rollups for the corp loop | [`hallazgo`](./skills/agent-operations/hallazgo) · [`reporte-gm`](./skills/agent-operations/reporte-gm) |
 | Prepare a whole repo and ship it as public open source | [`ship-oss`](./skills/engineering/ship-oss) |
 | Transfer work into a fresh Orca agent terminal | [`orca-handoff`](./skills/agent-operations/orca-handoff) |
 | Explain a technical decision to a non-developer | [`no-dev`](./skills/agent-operations/no-dev) |
@@ -79,6 +80,7 @@ The repository groups skills by category for browsing. Install or copy the indiv
 | [`wayfinder-sequential`](./skills/engineering/wayfinder-sequential) | Cautious variant of [`/wayfinder`](https://github.com/mattpocock/skills): one ticket per session, no parallel research, map re-evaluated after every resolution, prototype decisions stay with the user. Requires the upstream `wayfinder` skill. |
 | [`wavespeed`](./skills/engineering/wavespeed) | Generates or edits image, video, audio, and 3D assets through the `wavespeed` CLI, where every model is one explicit `run <id>` call. |
 | [`to-cms`](./skills/engineering/to-cms) | Ingest a content package into Notion Publisher CMS rows (Not started) with channel auto-detect; never calls publish webhooks. Invocable as `/to-cms`. |
+| [`obsidian-plugin-release`](./skills/engineering/obsidian-plugin-release) | Bumps and ships an Obsidian community plugin release: manifest/package/versions, build, signed tag, and GitHub release path. |
 
 ### Agent Operations
 
@@ -87,6 +89,9 @@ The repository groups skills by category for browsing. Install or copy the indiv
 | [`orca-handoff`](./skills/agent-operations/orca-handoff) | Writes a redacted handoff, opens the correct Orca terminal or worktree, waits for TUI readiness, and delivers the prompt. |
 | [`no-dev`](./skills/agent-operations/no-dev) | Converts technical explanations into purpose, consequence, action, risk, and result. |
 | [`govern-agentic-os`](./skills/agent-operations/govern-agentic-os) | Keeps a repository and its issue tracker from becoming two sources of truth: audit, plan, execute, check, and hand off governance work under one authority model. |
+| [`hallazgo`](./skills/agent-operations/hallazgo) | Formats a scout → GM finding block (oferta/señal, links, ROI, fit) for the corporate loop. |
+| [`loop-corp`](./skills/agent-operations/loop-corp) | Runs the Orquestador + GMs corporate loop (daily / standing), without dumping raw scout noise. |
+| [`reporte-gm`](./skills/agent-operations/reporte-gm) | Formats the GM rollup to the GMs room → Orquestador (Forja, Levy, Brandy, Inti, Oppy). |
 
 ### Obsidian Vault
 
@@ -102,6 +107,7 @@ The repository groups skills by category for browsing. Install or copy the indiv
 |---|---|
 | [`promo-webinar`](./skills/marketing/promo-webinar) | Turns a short webinar brief into a 9-asset multichannel promo kit plus a publish calendar. |
 | [`sundai-campana-hack`](./skills/marketing/sundai-campana-hack) | Generates the full before/during/after content plan for a Sundai Latam hack campaign. |
+| [`hackathon-promo`](./skills/marketing/hackathon-promo) | Builds the multichannel promo kit for an in-person/hybrid hackathon (Luma, blasts, accept/waitlist/reject). |
 
 ## Repository layout
 

@@ -24,6 +24,7 @@ Use these skills when a repeatable workflow needs more than a prompt: determinis
 | Sync a local repository without losing work | [`repo-sync`](./skills/engineering/repo-sync) |
 | Improve a GitHub README and ship the change | [`readme-commit`](./skills/engineering/readme-commit) |
 | Ingest a package into Notion Publisher CMS | [`to-cms`](./skills/engineering/to-cms) |
+| Turn an app idea into a Lovable-ready pack (surface map, Refero, Relume, scroll stopper, local identity) | [`prompt-architect`](./skills/engineering/prompt-architect) |
 | Format scout findings / GM rollups for the corp loop | [`hallazgo`](./skills/agent-operations/hallazgo) · [`reporte-gm`](./skills/agent-operations/reporte-gm) |
 | Prepare a whole repo and ship it as public open source | [`ship-oss`](./skills/engineering/ship-oss) |
 | Transfer work into a fresh Orca agent terminal | [`orca-handoff`](./skills/agent-operations/orca-handoff) |
@@ -75,6 +76,7 @@ The repository groups skills by category for browsing. Install or copy the indiv
 | [`repo-sync`](./skills/engineering/repo-sync) | Detects ahead, behind, and diverged states; fast-forwards safely and backs up before destructive syncs. |
 | [`clone-software-repo`](./skills/engineering/clone-software-repo) | Clones an external repository into a managed software workspace. |
 | [`start-cc+lv`](./skills/engineering/start-cc+lv) | Starts a Claude Code workflow connected to Lovable and a GitHub-based deployment path. |
+| [`prompt-architect`](./skills/engineering/prompt-architect) | Turns an app idea into mvp-plan, design-style-plan, prd and a first Lovable prompt, using a Refero reference, a Relume sitemap, one scroll-stopper component and a local identity palette. Never goes straight to Lovable. |
 | [`game-designer-ue`](./skills/engineering/game-designer-ue) | Adapts game-feel analysis and design methods to Unreal Engine 5 systems. |
 | [`wayfinder-sequential`](./skills/engineering/wayfinder-sequential) | Cautious variant of [`/wayfinder`](https://github.com/mattpocock/skills): one ticket per session, no parallel research, map re-evaluated after every resolution, prototype decisions stay with the user. Requires the upstream `wayfinder` skill. |
 | [`wavespeed`](./skills/engineering/wavespeed) | Generates or edits image, video, audio, and 3D assets through the `wavespeed` CLI, where every model is one explicit `run <id>` call. |

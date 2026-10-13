@@ -1,0 +1,54 @@
+{
+  "_comment": "Curated third-party skills TheVeller uses daily. Not vendored: install from upstream with scripts/install-favorites.sh. 'commit' is the revision reviewed; upstream may have moved on.",
+  "updated": "2026-10-13",
+  "sources": [
+    {
+      "repo": "ItsssssJack/SlopMonster",
+      "license": "MIT",
+      "commit": "3fc9787d9337",
+      "category": "content",
+      "skills": ["slopmonster"],
+      "why": "Review copy for its reader, strip AI tells, get a second pass from another model family."
+    },
+    {
+      "repo": "ItsssssJack/power-design",
+      "license": "see upstream",
+      "commit": "f0c4143a3878",
+      "category": "content",
+      "skills": ["power-design"],
+      "why": "On-brand HTML decks and sites from a brand's extracted design DNA."
+    },
+    {
+      "repo": "morluto/rea",
+      "license": "MIT",
+      "commit": "172407787f18",
+      "category": "engineering",
+      "skills": ["reverse-engineer-anything"],
+      "why": "Reverse engineer apps, binaries, Electron and firmware from shipped artifacts."
+    },
+    {
+      "repo": "https://github.com/cursor/plugins/tree/main/pstack",
+      "license": "see upstream",
+      "commit": "1dcc2bacde73",
+      "category": "engineering",
+      "skills": ["poteto-help", "architect", "interrogate", "blast-radius", "figure-it-out", "swarm", "arena", "reflect", "recall", "correct", "unslop", "how", "why", "ketchup", "show-me-your-work", "technical-writing", "create-verification-skill"],
+      "why": "pstack playbooks for rigorous agent work. Its tdd/teach are skipped in favor of Matt Pocock's."
+    },
+    {
+      "repo": "mattpocock/skills",
+      "license": "MIT",
+      "commit": "49dd158d1076",
+      "category": "engineering",
+      "skills": ["tdd", "diagnosing-bugs", "grill-me", "grill-with-docs", "to-spec", "to-tickets", "implement-spec", "codebase-design", "improve-codebase-architecture", "handoff", "wayfinder", "triage", "prototype", "domain-modeling", "writing-for-agents"],
+      "why": "Spec → tickets → implementation chain, grilling, and debugging loops."
+    },
+    {
+      "repo": "crafter-station/skills",
+      "license": "MIT",
+      "commit": "f0fe474d76ed",
+      "category": "engineering",
+      "skills": ["cli-build", "cli-audit", "surface-recon", "surfacer", "generate-brand-assets", "obsidian-plugin-release", "supply-chain-audit", "skill-gen", "intent-layer"],
+      "why": "Agent-first CLIs, surface recon → generated clients, supply-chain audits."
+    }
+  ]
+}

@@ -110,9 +110,32 @@ The repository groups skills by category for browsing. Install or copy the indiv
 | [`sundai-campana-hack`](./skills/marketing/sundai-campana-hack) | Generates the full before/during/after content plan for a Sundai Latam hack campaign. |
 | [`hackathon-promo`](./skills/marketing/hackathon-promo) | Builds the multichannel promo kit for an in-person/hybrid hackathon (Luma, blasts, accept/waitlist/reject). |
 
+## Favorites (curated, upstream)
+
+Third-party skills TheVeller uses every week. They are **not vendored**: [`favorites.json`](./favorites.json) pins the repo, the reviewed commit, the category, and why each one earns a slot. Install them from upstream:
+
+```bash
+scripts/install-favorites.sh            # current project
+scripts/install-favorites.sh -g         # global
+scripts/install-favorites.sh --dry-run  # print the npx commands
+```
+
+| Source | Category | Skills |
+|---|---|---|
+| [ItsssssJack/SlopMonster](https://github.com/ItsssssJack/SlopMonster) | content | `slopmonster` |
+| [ItsssssJack/power-design](https://github.com/ItsssssJack/power-design) | content | `power-design` |
+| [morluto/rea](https://github.com/morluto/rea) | engineering | `reverse-engineer-anything` |
+| [cursor/plugins · pstack](https://github.com/cursor/plugins/tree/main/pstack) | engineering | `architect`, `interrogate`, `blast-radius`, `figure-it-out`, `swarm`, `arena`, `correct`, `reflect`, `recall`, `unslop`, `how`, `why`, `ketchup`, `show-me-your-work`, `technical-writing`, `create-verification-skill`, `poteto-help` |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | engineering | `tdd`, `diagnosing-bugs`, `grill-me`, `grill-with-docs`, `to-spec`, `to-tickets`, `implement-spec`, `codebase-design`, `improve-codebase-architecture`, `handoff`, `wayfinder`, `triage`, `prototype`, `domain-modeling`, `writing-for-agents` |
+| [crafter-station/skills](https://github.com/crafter-station/skills) | engineering | `cli-build`, `cli-audit`, `surface-recon`, `surfacer`, `generate-brand-assets`, `obsidian-plugin-release`, `supply-chain-audit`, `skill-gen`, `intent-layer` |
+
+Favorites follow the same categories as this catalog. The full private library (own + third-party, with real usage stats) lives in TheVeller's Notion Skills Library.
+
 ## Repository layout
 
 ```text
+favorites.json         # curated upstream skills (not vendored)
+scripts/install-favorites.sh
 skills/
 |-- agent-operations/  # handoffs and human-agent communication
 |-- engineering/       # repository and implementation workflows
@@ -134,7 +157,7 @@ This repository does not mirror the full third-party stack used in TheVeller's w
 | Source | Skills or focus |
 |---|---|
 | [obra/superpowers](https://github.com/obra/superpowers) | Debugging, planning, worktrees, and TDD |
-| [mattpocock/skills](https://github.com/mattpocock/skills) | Domain modeling, grilling, handoffs, implementation, teaching, and the `wayfinder` planning chain (`wayfinder-sequential` here builds on it) |
+| [mattpocock/skills](https://github.com/mattpocock/skills) | Engineering + productivity: spec → tickets → implementation, TDD, diagnosis, grilling, handoffs, and the `wayfinder` planning chain (`wayfinder-sequential` here builds on it) |
 | [coleam00/excalidraw-diagram-skill](https://github.com/coleam00/excalidraw-diagram-skill) | Research-backed Excalidraw workflow diagrams |
 | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) | Design critique and frontend refinement |
 | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | Frontend design judgment |
@@ -144,7 +167,10 @@ This repository does not mirror the full third-party stack used in TheVeller's w
 | [roble3/cc-blender-skill](https://github.com/roble3/cc-blender-skill) | Blender modeling |
 | [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) | Vercel deployment workflows |
 | [googleworkspace/cli](https://github.com/googleworkspace/cli) | Google Workspace service skills |
-| [crafter-station/skills](https://github.com/crafter-station/skills) | `cli-build`, `generate-brand-assets`, `intent-layer`, `obsidian-plugin-release`, `skill-gen`, `spoti-cli`, `supply-chain-audit` |
+| [crafter-station/skills](https://github.com/crafter-station/skills) | `cli-build`, `cli-audit`, `surface-recon`, `surfacer`, `generate-brand-assets`, `intent-layer`, `obsidian-plugin-release`, `skill-gen`, `spoti-cli`, `supply-chain-audit` |
+| [cursor/plugins · pstack](https://github.com/cursor/plugins/tree/main/pstack) | pstack playbooks and engineering principles |
+| [ItsssssJack/SlopMonster](https://github.com/ItsssssJack/SlopMonster) · [ItsssssJack/power-design](https://github.com/ItsssssJack/power-design) | De-slopping copy; on-brand HTML decks and sites |
+| [morluto/rea](https://github.com/morluto/rea) | Reverse engineering with REA |
 | [Composio](https://composio.dev) | `composio-cli`, installed with `composio --install-skill` and generated from the CLI's own source |
 | [diegosouzapw/OmniRoute](https://github.com/diegosouzapw/OmniRoute) | The `omniroute-*` gateway skills, generated by the product's own skill generator |
 | [Imperio Digital](https://www.skool.com/imperio) | Paid Skool prompt pack (503 prompts / 20 categories, 0 `SKILL.md`). Not Agent Skills and not installable via the `skills` CLI. Do not vendor. Cherry-pick locally with credit only if a real domain gap hurts (RRHH, legal, e-commerce, generic email, pricing, Skool page templates). |

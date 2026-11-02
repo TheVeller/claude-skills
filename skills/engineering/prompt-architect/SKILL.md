@@ -1,31 +1,29 @@
 ---
 name: prompt-architect
-description: >
-  Turns an app idea into mvp-plan, design-style-plan, prd and a first Lovable prompt,
-  using a Refero reference, a Relume sitemap, one scroll-stopper component and a local
-  identity palette. Never goes straight to Lovable. Use when the user invokes
-  /prompt-architect, has an app idea to pack for Lovable, or asks for a surface map,
-  Refero, Relume, scroll stopper, and local identity before building.
+description: >-
+  Use this when the user has an app idea and needs the surface map, one
+  reference, mvp-plan.md, design-style-plan.md, prd.md, and the first prompt
+  before Lovable or a coding agent. Uses a Refero reference, a Relume sitemap,
+  one scroll-stopper component and a local identity palette. Never goes
+  straight to Lovable. Use when the user invokes /prompt-architect.
 argument-hint: "[app idea]"
 category: engineering
 ---
-
 # prompt-architect
 
-Turn an **app idea** into a Lovable-ready pack. The pack is the product of this skill.
-Lovable is a later handoff, never the first move.
+Turn an app idea into a pack a builder can paste into Lovable, Cursor, Bolt, v0, or Replit. The pack is the product of this skill; the builder is a later handoff, never the first move. Mirror the user's language in the docs (ES / EN / PT). Code and the first prompt stay English.
 
-**Language:** skill docs English. Conversation may stay Spanish.
+This skill is the standard for every new project. Do not skip a step and do not go straight to Lovable.
 
-**Skill dir:** `$SKILL_DIR` = directory containing this `SKILL.md`.
+> Grok Bot fleet: internal skill of SWE, not a sibling bot. Do not spawn a separate Prompt Architect bot.
 
 ## Hard rules
 
-1. **Never go straight to Lovable.** Do not open Lovable, paste a prompt into Lovable, or ask `start-cc+lv` to bootstrap until the four deliverables below exist and the user has signed off on the first Lovable prompt.
-2. **Four deliverables, in order.** `mvp-plan` → `design-style-plan` → `prd` → first Lovable prompt. Do not skip ahead to the prompt.
-3. **Four design locks, required.** Every pack names exactly one Refero reference, one Relume sitemap, one scroll-stopper component, and one local identity palette. If any lock is missing, stop and ask — do not invent a generic SaaS look.
+1. **Never go straight to Lovable.** Do not open Lovable, paste a prompt into Lovable, or ask `start-cc+lv` to bootstrap until the four deliverables exist and the user has signed off on the first prompt.
+2. **Four deliverables, in order.** `mvp-plan` → `design-style-plan` → `prd` → first prompt. Do not skip ahead to the prompt.
+3. **Design locks, required.** Every pack names one reference, one surface map (Relume or hand-built), one scroll-stopper component, and one local identity palette. If any lock is missing, ask once — do not invent a generic SaaS look.
 4. **One surface map.** List the screens/surfaces the MVP will actually ship. Everything else is out of scope.
-5. **Handoff only.** When the pack is complete, give the user the first Lovable prompt and point them at `start-cc+lv` for the session contract. This skill does not build the app.
+5. **Handoff only.** When the pack is complete, give the user the first prompt and point them at `start-cc+lv` for the session contract. This skill does not build the app.
 
 ## Inputs
 
@@ -37,80 +35,51 @@ Lovable is a later handoff, never the first move.
 
 If the idea is only a noun ("a CRM"), ask one clarifying question for the job-to-be-done, then continue. Do not interview the idea to death.
 
-## Design locks
+## Before any doc
 
-Resolve these before writing the PRD. Write them into `design-style-plan`.
+Do these in order. Do not open with a homepage.
 
-| Lock | What "done" means |
-|---|---|
-| **Refero reference** | One real UI from [Refero](https://refero.design) (or a captured Refero-style shot) that sets hierarchy, density, and component rhythm. Name the product + screen, not "clean SaaS". |
-| **Relume sitemap** | One sitemap shaped with [Relume](https://www.relume.io) page/section vocabulary. Pages and sections only — no wireframe essay. |
-| **Scroll-stopper** | Exactly one component (hero, first fold, or key empty state) that must stop the scroll. Specify the motion, contrast, and the line of copy that does the stopping. |
-| **Local identity palette** | Colors, type, and two texture/material notes grounded in a real place, brand, or cultural identity the user owns — not a generic AI gradient. 5–7 colors max, with roles (bg, fg, accent, danger, mute). |
+1. **Reference.** One URL of a screen that already works in this niche. Refero, referral.design, Savee, or 21st.dev are the usual places. If the user did not name one, ask once. Do not invent a look. When the user gives a Refero style link (for example `styles.refero.design/style/<id>`), use that link as the design DNA: pull its palette, type and spacing, and say what you took from it. Name the product + screen, not "clean SaaS".
+2. **Surfaces before the homepage.** Map every page or app surface first (4–8 surfaces, each with one job; mark the one that holds the scroll-stopper). For a marketing site, use Relume: one paragraph of the product, the reference URL, and the design principles, then the generated sitemap and wireframes. Move sections before export. The homepage is one surface. If the Relume MCP or Composio plugin is connected, use it; otherwise build the sitemap by hand from the same shape (home, about, product, contact, plus whatever the idea needs).
+3. **One component (the scroll stopper).** Pick one real component to bring over (21st.dev or the Relume library). Not a moodboard. This is the attention-grabber that stops the scroll in the hero: an interactive search, a live map, a quote or price animation, a video. Name it, say where it lives (usually the hero), and specify the motion, contrast, and the line of copy that does the stopping. If one is not obvious, ask once.
+4. **Local identity match.** Take the reference palette and recolor it toward the place or brand the product is for. For a place, use its real materials and landmarks (for Arequipa: sillar white, terracotta, charcoal, the Misti, 🇳🇵). Do not copy the reference site's colors blindly when a local identity exists. Write the final palette (3 to 5 colors with roles) into the design doc.
+5. **Mobile is in the first build.** Most traffic is a phone. The first prompt says mobile first, then widen, and a person still clicks every width.
+6. **Concrete copy.** Name the specific thing. Prefer the action ("start free") over "get started". No em-dash piles. No line that admits the photos or names are placeholders.
+7. **Images and SEO after structure.** Generate a logo or photo only when one is missing. A keyword roadmap does not block the first build.
 
-If the user has no Refero or Relume pick yet, propose **one** candidate for each and wait for a yes. Do not generate three moodboards.
+If the user has no reference or sitemap pick yet, propose **one** candidate for each and wait for a yes. Do not generate three moodboards.
 
-## Workflow
+## Sources (read-only, check the link opens before using it)
 
-### 1. Surface map
+- **Refero styles** (`styles.refero.design`): design DNA. Take palette, type and spacing from one style link and say what you took.
+- **Relume** (`relume.ai`): sitemap and wireframes before any build.
+- **21st.dev** and **React Bits** (`reactbits.dev`): the one scroll-stopper component. Name the component and where it goes.
+- **Context.dev design.md generator** (`context.dev/free-tools/design-md-generator`): turns an existing site into a `design.md` (colors, type, spacing). Use it to read an existing brand from its live site.
+- **GitHub OSS**: for an existing product or brand, read its repo (tailwind config, CSS variables, fonts, logos) before inventing anything.
+- **Brand identity owner**: if the brand already has an identity made by the design owner (Musa Designer in Futuraria), use it as the palette and type source and do not redo it. If the design owner has none, the extracted site/repo identity goes to them in a `brand-kit.md` (palette hex, type, logo URL, three literal quotes of tone, mobile and desktop screenshots, source of each item). Extract only after the user says yes.
 
-Write the MVP as a short surface map: 4–8 surfaces, each with one job. Mark the surface that holds the scroll-stopper. Drop anything that is not needed for the first useful loop.
+## Output
 
-### 2. `mvp-plan`
+Four fenced `md` blocks, this order, no commentary around them. If the user wants files instead, write the same four files where they say (default: repo root or a `docs/` folder they name).
 
-A markdown plan, not a manifesto:
-
-- Problem and who feels it
-- First useful loop (the one path that must work)
-- Surface map
-- In / out of scope
-- Success check the user can see without opening DevTools
-
-### 3. `design-style-plan`
-
-Lock the four design items above, then:
-
-- Type pairing and scale
-- Spacing and radius
-- What the scroll-stopper looks like in one paragraph
-- What this product must **not** look like (one line)
-
-### 4. `prd`
-
-Product requirements for the MVP only:
-
-- Users and jobs
-- Surfaces → requirements (must / should)
-- Empty, error, and success states for the first useful loop
-- Data the MVP stores (names, not a schema essay)
-- Non-goals
-
-### 5. First Lovable prompt
-
-One prompt. It must:
-
-- Restate the idea in two sentences
-- Point at the four design locks by name
-- List the surface map
-- Quote the scroll-stopper copy and the palette roles
-- Say what not to build
-- Tell Lovable to implement the MVP from `mvp-plan` + `design-style-plan` + `prd`, not to invent a new product
+1. **mvp-plan.md** — goal, problem and who feels it, first useful loop, scope and exclusions, stack, weekly timeline, success metrics the user can see without opening DevTools. Includes the surface list from Relume (or the hand-built sitemap).
+2. **design-style-plan.md** — the reference URL, the surface map, the one scroll-stopper component, the local identity palette and type (pairing and scale), spacing and radius, the mobile widths, the copy rules above, and one line on what this product must **not** look like.
+3. **prd.md** — vision, users and jobs, surfaces → requirements (must / should), empty/error/success states for the first useful loop, data the MVP stores (names, not a schema essay), non-functional specs, non-goals, roadmap, metrics.
+4. **first-prompt.md** — the English prompt that restates the idea in two sentences and says: build from this surface map and this reference URL, include this one scroll-stopper component (quote its copy), match the local identity palette (quote the roles), mobile first, concrete copy, no SEO pass yet, what not to build, and implement the MVP from `mvp-plan` + `design-style-plan` + `prd`, not a new product. If a Relume export exists, the prompt says to build from that export plus the reference, not from a vibe.
 
 Show the prompt to the user. **Stop.** Do not paste it into Lovable.
 
-## Outputs
+## Defaults
 
-Write four files next to the idea (ask where; default to the current repo root or a `docs/` folder the user names):
-
-| File | Content |
-|---|---|
-| `mvp-plan.md` | Step 2 |
-| `design-style-plan.md` | Step 3 + the four locks |
-| `prd.md` | Step 4 |
-| `lovable-prompt.md` | Step 5 |
-
-If the user wants them inline instead of files, print the same four headings in that order.
+- Web / frontend unless the user asks for backend
+- React + Vite + Tailwind unless they name something else
+- Infer missing constraints with a lean MVP
+- No brand CTAs, no third-party signup blocks
 
 ## Done
 
-The pack is done when all four files (or headings) exist, every design lock has a concrete name, and the user has the first Lovable prompt in their hands. Next session, if they want to build: `start-cc+lv`.
+The pack is done when all four blocks (or files) exist, every design lock has a concrete name, and the user has the first prompt in their hands.
+
+## After delivery
+
+Offer the Lovable batch using these docs as project knowledge, then git and cloud agents (`start-cc+lv`). Do not launch that batch unless they asked.

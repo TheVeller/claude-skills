@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<!--
+  CHANNEL DIAGNOSTIC — REPORT TEMPLATE (adapted from content.game, no Sandcastles)
+  =================================================
+  How to use this file (instructions for the model building the report):
+  - This is a complete, working example with ONE channel filled in with dummy data.
+  - Duplicate the block marked <!-- CLONE PER CHANNEL --> ... <!-- /CLONE PER CHANNEL -->
+    once for each channel, and fill in real data.
+  - Inside a channel, duplicate the <!-- CLONE PER VIDEO --> ... <!-- /CLONE PER VIDEO -->
+    card markup for each cited example video.
+  - Every video card's <a> must link to that video's real platform URL (TikTok / YouTube / Instagram). Thumbnails: the scraped thumbnail URL, or a local hook_0s.jpg embedded as base64 if the CDN link may expire.
+  - Add one nav pill per channel in the top nav (CLONE PER CHANNEL NAV).
+  - Delete ALL placeholder/dummy content so only real data ships.
+  - Keep it strictly per-channel — do not add a cross-channel comparison section.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Channel Diagnostic</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f8f9fb; --card:#ffffff; --ink:#0f172a; --muted:#94a3b8;
+    --line:#e4e8ed; --line-soft:#f0f2f5;
+    --blue:#3b82f6; --indigo:#4338ca; --indigo-2:#6366f1; --indigo-3:#818cf8;
+    --green:#059669; --red:#ef4444;
+    --shadow:0 1px 3px rgba(0,0,0,0.04); --shadow-lift:0 6px 22px rgba(15,23,42,0.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);
+    -webkit-font-smoothing:antialiased;line-height:1.5;padding-bottom:80px}
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- Top bar ---------- */
+  .topbar{position:sticky;top:0;z-index:20;background:rgba(248,249,251,.85);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:14px 28px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15px}
+  .brand .logo{width:26px;height:26px;border-radius:7px;
+    background:linear-gradient(135deg,var(--blue),var(--indigo));display:grid;place-items:center;
+    font-size:14px}
+  .nav{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+  .nav a{font-size:13px;font-weight:600;color:#475569;padding:6px 13px;border-radius:999px;
+    border:1px solid var(--line);background:var(--card);transition:.15s}
+  .nav a:hover{border-color:var(--indigo-3);color:var(--indigo)}
+
+  /* ---------- Page header ---------- */
+  .head{max-width:1080px;margin:34px auto 8px;padding:0 28px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--indigo-2)}
+  .head h1{font-size:30px;font-weight:700;margin:8px 0 6px;letter-spacing:-.02em}
+  .head p{color:#64748b;font-size:15px}
+
+  /* ---------- Channel block ---------- */
+  .channel{max-width:1080px;margin:36px auto;padding:0 28px}
+  .ch-head{display:flex;align-items:center;gap:16px;padding:20px 22px;background:var(--card);
+    border:1px solid var(--line);border-radius:16px 16px 0 0;border-bottom:none}
+  .ch-avatar{width:54px;height:54px;border-radius:50%;object-fit:cover;flex:none;
+    background:linear-gradient(135deg,var(--indigo-2),var(--indigo-3));display:grid;place-items:center;
+    color:#fff;font-weight:700;font-size:20px}
+  .ch-id{flex:1;min-width:0}
+  .ch-id h2{font-size:21px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .platform{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--indigo);background:#eef2ff;padding:3px 8px;border-radius:6px}
+  .ch-id .handle{color:var(--muted);font-size:14px;margin-top:2px}
+  .ch-summary{color:#475569;font-size:14px;margin-top:8px;max-width:640px}
+
+  /* stat strip */
+  .stats{display:flex;gap:0;background:var(--card);border:1px solid var(--line);border-top:none;
+    border-bottom:none;padding:0 22px}
+  .stat{flex:1;padding:14px 8px;text-align:center;border-right:1px solid var(--line-soft)}
+  .stat:last-child{border-right:none}
+  .stat .v{font-size:20px;font-weight:700}
+  .stat .v.pos{color:var(--green)}
+  .stat .l{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--muted);margin-top:3px}
+
+  .ch-body{background:var(--card);border:1px solid var(--line);border-radius:0 0 16px 16px;
+    border-top:none;padding:8px 22px 24px;box-shadow:var(--shadow)}
+
+  /* ---------- Section ---------- */
+  .section{padding:22px 0 6px;border-top:1px solid var(--line-soft)}
+  .section:first-child{border-top:none}
+  .sec-head{display:flex;align-items:center;gap:11px;margin-bottom:6px}
+  .sec-ico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex:none}
+  .ico-topic{background:#eef2ff}.ico-hook{background:#e0f2fe}
+  .ico-insight{background:#fef3c7}.ico-format{background:#dcfce7}
+  .sec-head h3{font-size:16px;font-weight:700}
+  .sec-head .num{font-size:12px;font-weight:600;color:var(--muted)}
+  .sec-sub{color:#64748b;font-size:13.5px;margin:2px 0 14px 41px}
+
+  /* pattern items */
+  .pattern{margin:0 0 16px 41px}
+  .pattern .p-title{font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .rank{font-size:11px;font-weight:700;color:#fff;background:var(--indigo-2);
+    width:20px;height:20px;border-radius:6px;display:grid;place-items:center;flex:none}
+  .pill{font-size:11px;font-weight:600;color:var(--indigo);background:#eef2ff;padding:2px 8px;border-radius:6px}
+  .pattern .p-desc{color:#475569;font-size:13.5px;margin:6px 0 0}
+  .template-line{margin-top:8px;font-size:13px;background:#f8fafc;border:1px dashed var(--line);
+    border-left:3px solid var(--blue);border-radius:8px;padding:9px 12px;color:#334155}
+  .template-line b{color:var(--indigo)}
+
+  /* insight list */
+  .insights{margin:0 0 4px 41px;display:flex;flex-direction:column;gap:12px}
+  .insight{background:#fffdf5;border:1px solid #fde9a8;border-radius:11px;padding:13px 15px}
+  .insight .i-h{font-weight:700;font-size:14px;color:#92670a}
+  .insight .i-b{color:#475569;font-size:13.5px;margin-top:4px}
+  .insight .i-why{font-size:12.5px;margin-top:7px;color:#334155}
+  .insight .i-why b{color:var(--green)}
+
+  /* video card row */
+  .videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:13px;
+    margin:12px 0 4px 41px}
+  .vcard{display:block;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    background:var(--card);transition:.16s}
+  .vcard:hover{box-shadow:var(--shadow-lift);transform:translateY(-2px);border-color:var(--indigo-3)}
+  .vthumb{position:relative;aspect-ratio:16/10;background:#e2e8f0;overflow:hidden}
+  .vthumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .vthumb .badge{position:absolute;top:8px;left:8px;background:rgba(15,23,42,.82);color:#fff;
+    font-size:11px;font-weight:700;padding:3px 7px;border-radius:6px;display:flex;align-items:center;gap:4px}
+  .vmeta{padding:10px 11px 11px}
+  .vtitle{font-size:13px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;
+    -webkit-box-orient:vertical;overflow:hidden}
+  .vstats{display:flex;gap:10px;margin-top:7px;font-size:11.5px;color:var(--muted);font-weight:600}
+  .vstats .out{color:var(--green)}
+  .vlink{font-size:11.5px;font-weight:600;color:var(--indigo);margin-top:7px;display:inline-flex;align-items:center;gap:3px}
+
+  footer{max-width:1080px;margin:40px auto 0;padding:18px 28px;color:var(--muted);font-size:12.5px;
+    border-top:1px solid var(--line);text-align:center}
+  @media(max-width:600px){.stats{flex-wrap:wrap}.stat{flex:1 0 33%}.head h1{font-size:24px}}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div class="topbar">
+  <div class="brand"><span class="logo">🎬</span> Channel Diagnostic</div>
+  <nav class="nav">
+    <!-- CLONE PER CHANNEL NAV --><a href="#ch-mkbhd">@mkbhd</a><!-- /CLONE PER CHANNEL NAV -->
+  </nav>
+</div>
+
+<!-- ===== PAGE HEADER ===== -->
+<div class="head">
+  <div class="eyebrow">Channel Diagnostic</div>
+  <h1>What's working — deep dive</h1>
+  <p>Per-channel breakdown of top topics, hooks, hidden insights, and formats. Based on the top-performing videos analyzed locally (scraped metrics + transcript + frames). <em>Replace this line with: N videos per channel · date range · selection basis.</em></p>
+</div>
+
+<!-- ===== CLONE PER CHANNEL ===== -->
+<section class="channel" id="ch-mkbhd">
+  <div class="ch-head">
+    <div class="ch-avatar">M</div>
+    <div class="ch-id">
+      <h2>Marques Brownlee <span class="platform">YouTube</span></h2>
+      <div class="handle">@mkbhd · 19.2M subscribers</div>
+      <div class="ch-summary">Premium consumer-tech reviews and explainers. Wins lean on definitive verdicts and "is it worth it" framing on flagship hardware.</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="v">30</div><div class="l">Videos analyzed</div></div>
+    <div class="stat"><div class="v pos">3.4×</div><div class="l">Median outlier</div></div>
+    <div class="stat"><div class="v">2.1M</div><div class="l">Median views</div></div>
+    <div class="stat"><div class="v">Last 90d</div><div class="l">Date range</div></div>
+    <div class="stat"><div class="v">Top perf.</div><div class="l">Selection</div></div>
+  </div>
+
+  <div class="ch-body">
+
+    <!-- SECTION 1 — TOPICS -->
+    <div class="section">
+      <div class="sec-head">
+        <span class="sec-ico ico-topic">🎯</span>
+        <h3>Top Performing Topics</h3><span class="num">· 4 territories</span>
+      </div>
+      <div class="sec-sub">The subject areas that consistently overperform this channel's own baseline.</div>
+
+      <!-- CLONE PER PATTERN -->
+      <div class="pattern">
+        <div class="p-title"><span class="rank">1</span> Flagship phone verdicts <span class="pill">peak 6.2× outlier</span></div>
+        <div class="p-desc">"Is it worth it" buying-decision videos on just-released flagships drive the channel's biggest spikes — viewers arrive at purchase intent and want a definitive call.</div>
+        <div class="videos">
+          <!-- CLONE PER VIDEO -->
+          <a class="vcard" href="https://www.tiktok.com/@EXAMPLE/video/EXAMPLE_ID" target="_blank" rel="noopener">
+            <div class="vthumb"><img src="THUMBNAIL_URL" alt=""><span class="badge">⚡ 6.2×</span></div>
+            <div class="vmeta">
+              <div class="vtitle">iPhone 16 Pro Review: Worth the Upgrade?</div>
+              <div class="vstats"><span class="out">6.2× outlier</span><span>4.1M views</span></div>
+              <div class="vlink">Watch on platform →</div>
+            </div>
+          </a>
+          <!-- /CLONE PER VIDEO -->
+        </div>
+      </div>
+      <!-- /CLONE PER PATTERN -->
+    </div>
+
+    <!-- SECTION 2 — HOOKS -->
+    <div class="section">
+      <div class="sec-head">
+        <span class="sec-ico ico-hook">🪝</span>
+        <h3>Top Performing Hooks</h3><span class="num">· 3 patterns</span>
+      </div>
+      <div class="sec-sub">The opening moves that earn the watch — with the reusable template underneath.</div>
+
+      <!-- CLONE PER PATTERN -->
+      <div class="pattern">
+        <div class="p-title"><span class="rank">1</span> Contrarian verdict <span class="pill">curiosity gap</span></div>
+        <div class="p-desc">Opens by undercutting the hype the viewer expects, forcing them to stay for the "but actually."</div>
+        <div class="template-line"><b>Template:</b> "Everyone says <i>X is the best</i>… but after N days, <i>here's the problem</i>."</div>
+        <div class="videos">
+          <!-- CLONE PER VIDEO -->
+          <a class="vcard" href="https://www.tiktok.com/@EXAMPLE/video/EXAMPLE_ID" target="_blank" rel="noopener">
+            <div class="vthumb"><img src="THUMBNAIL_URL" alt=""><span class="badge">⚡ 5.1×</span></div>
+            <div class="vmeta">
+              <div class="vtitle">"This is the best phone… except for one thing."</div>
+              <div class="vstats"><span class="out">5.1× outlier</span><span>3.3M views</span></div>
+              <div class="vlink">Watch on platform →</div>
+            </div>
+          </a>
+          <!-- /CLONE PER VIDEO -->
+        </div>
+      </div>
+      <!-- /CLONE PER PATTERN -->
+    </div>
+
+    <!-- SECTION 3 — HIDDEN INSIGHTS -->
+    <div class="section">
+      <div class="sec-head">
+        <span class="sec-ico ico-insight">💡</span>
+        <h3>Hidden Insights</h3><span class="num">· what a scroll would miss</span>
+      </div>
+      <div class="sec-sub">Second-order patterns across the set — the stuff you only see by studying 30 videos at once.</div>
+      <div class="insights">
+        <!-- CLONE PER INSIGHT -->
+        <div class="insight">
+          <div class="i-h">The contrarian hook only wins on flagship hardware</div>
+          <div class="i-b">Of the videos using a contrarian verdict hook, the ones about flagship phones averaged 4.8× outlier; the same hook on accessories averaged 1.1×.</div>
+          <div class="i-why"><b>So what:</b> save the "best… except" opener for tentpole hardware; it falls flat on lower-stakes topics.</div>
+        </div>
+        <!-- /CLONE PER INSIGHT -->
+      </div>
+    </div>
+
+    <!-- SECTION 4 — FORMATS -->
+    <div class="section">
+      <div class="sec-head">
+        <span class="sec-ico ico-format">🎬</span>
+        <h3>Top Performing Formats <span class="num">· + other patterns</span></h3>
+      </div>
+      <div class="sec-sub">The structural styles that win here, and why they work for this channel.</div>
+
+      <!-- CLONE PER PATTERN -->
+      <div class="pattern">
+        <div class="p-title"><span class="rank">1</span> Verdict-first Breakdown <span class="pill">peak 6.2×</span></div>
+        <div class="p-desc">Leads with the conclusion, then earns it — works because the audience is decision-driven and rewards confidence over suspense.</div>
+        <div class="videos">
+          <!-- CLONE PER VIDEO -->
+          <a class="vcard" href="https://www.tiktok.com/@EXAMPLE/video/EXAMPLE_ID" target="_blank" rel="noopener">
+            <div class="vthumb"><img src="THUMBNAIL_URL" alt=""><span class="badge">⚡ 6.2×</span></div>
+            <div class="vmeta">
+              <div class="vtitle">iPhone 16 Pro Review: Worth the Upgrade?</div>
+              <div class="vstats"><span class="out">6.2× outlier</span><span>4.1M views</span></div>
+              <div class="vlink">Watch on platform →</div>
+            </div>
+          </a>
+          <!-- /CLONE PER VIDEO -->
+        </div>
+      </div>
+      <!-- /CLONE PER PATTERN -->
+
+      <div class="pattern">
+        <div class="p-title"><span class="pill">Other pattern</span> Signature cold-open</div>
+        <div class="p-desc">Nearly every top video opens on a 2-second product beauty shot before any talking — a recognizable channel signature.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- ===== /CLONE PER CHANNEL ===== -->
+
+<footer>
+  Channel Diagnostic (adapted from content.game / Kallaway) · Outlier = views ÷ the channel’s trailing 90-day average, computed from scraped data · Labels are the analyst’s reading of transcript and frames.
+</footer>
+
+</body>
+</html>

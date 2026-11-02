@@ -1,6 +1,6 @@
 {
   "_comment": "Curated third-party skills TheVeller uses daily. Not vendored: install from upstream with scripts/install-favorites.sh. 'commit' is the revision reviewed; upstream may have moved on.",
-  "updated": "2026-10-13",
+  "updated": "2026-11-02",
   "sources": [
     {
       "repo": "ItsssssJack/SlopMonster",
@@ -49,6 +49,14 @@
       "category": "engineering",
       "skills": ["cli-build", "cli-audit", "surface-recon", "surfacer", "generate-brand-assets", "obsidian-plugin-release", "supply-chain-audit", "skill-gen", "intent-layer"],
       "why": "Agent-first CLIs, surface recon → generated clients, supply-chain audits."
+    },
+    {
+      "repo": "mvanhorn/last30days-skill",
+      "license": "MIT",
+      "commit": "6894d44e088c",
+      "category": "research",
+      "skills": ["last30days"],
+      "why": "30-day social research across Reddit, X, YouTube, TikTok, Hacker News, Polymarket, GitHub and the web, with a doctor health check."
     }
   ]
 }

@@ -61,3 +61,11 @@ This script wraps `git reset --hard` deliberately, so the vault's PreToolUse gua
 
 Backup branches accumulate. To prune old ones once you're sure they're not needed:
 `git branch --list 'backup/pre-sync-*'` then delete the stale ones with `git branch -D <name>`.
+
+## Lane (Grok Bot fleet)
+
+- Canonical copy lives on Ignacio's Mac (Hermes / Claude Code): `~/.hermes/skills/repo-sync/` and vault `.claude/skills/repo-sync/`.
+- Overnight or Cloud Agent work that **touches a Mac clone** → SWE briefs Hermes to run repo-sync first (SWE does not clone on the Grok box).
+- Pure Cloud Agent on the GitHub remote → no local clone; skip this skill (the remote is the source of truth for the agent).
+- Matching Lovable projects ↔ local folders: list Lovable via MCP, list local `02_Programs/3-Software/` (or named paths) via Hermes/Mac; for each matched git remote, run `check` then `sync`.
+- Local execution = Hermes. SWE orchestrates (names repo, goal, whether the night uses Cloud vs Hermes/OmniRouter).
